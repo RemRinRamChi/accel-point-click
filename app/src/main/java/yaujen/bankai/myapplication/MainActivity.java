@@ -29,26 +29,26 @@ public class MainActivity extends AppCompatActivity {
         mouseView = findViewById(R.id.mouseView);
 
 
-        ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Hi 1",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        ((Button)findViewById(R.id.button2)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Hi 2",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Hi 3",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(MainActivity.this,"Hi 1",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        ((Button)findViewById(R.id.button2)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(MainActivity.this,"Hi 2",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(MainActivity.this,"Hi 3",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
