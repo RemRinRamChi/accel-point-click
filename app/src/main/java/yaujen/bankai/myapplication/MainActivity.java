@@ -28,33 +28,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mouseView = findViewById(R.id.mouseView);
 
-        final long downTime = SystemClock.uptimeMillis();
-        final long eventTime = SystemClock.uptimeMillis() + 100;
-        final ArrayList<Integer> hihi = new ArrayList<Integer>();
-        hihi.add(0);
 
         ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hihi.set(0,hihi.get(0)+1);
-                Toast.makeText(MainActivity.this,"Hi Again "+hihi.get(0),Toast.LENGTH_SHORT).show();
-                // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
-                int metaState = 0;
-                MotionEvent motionEvent = MotionEvent.obtain(
-                        downTime,
-                        eventTime,
-                        MotionEvent.ACTION_UP,
-                        100,
-                        100,
-                        metaState
-                );
-
-                // Dispatch touch event to view
-                findViewById(R.id.button).dispatchTouchEvent(motionEvent);
-
+                Toast.makeText(MainActivity.this,"Hi 1",Toast.LENGTH_SHORT).show();
             }
         });
 
+        ((Button)findViewById(R.id.button2)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Hi 2",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"Hi 3",Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -86,11 +80,22 @@ public class MainActivity extends AppCompatActivity {
             float x = mouse.getX();
             float y = mouse.getY();
 
-            Toast.makeText(this, "Down clicked at "+x+", "+y, Toast.LENGTH_SHORT).show();
-
             // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
             int metaState = 0;
             MotionEvent motionEvent = MotionEvent.obtain(
+                    downTime,
+                    eventTime,
+                    MotionEvent.ACTION_DOWN,
+                    x,
+                    y,
+                    metaState
+            );
+
+            // Dispatch touch event to view
+            findViewById(R.id.alpha).dispatchTouchEvent(motionEvent);
+
+            metaState = 0;
+            motionEvent = MotionEvent.obtain(
                     downTime,
                     eventTime,
                     MotionEvent.ACTION_UP,
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
             // Dispatch touch event to view
-            findViewById(R.id.button).dispatchTouchEvent(motionEvent);
+            findViewById(R.id.alpha).dispatchTouchEvent(motionEvent);
 
         }
         return true;
