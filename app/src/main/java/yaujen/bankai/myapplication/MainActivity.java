@@ -88,11 +88,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)){
-            Mouse mouse = mouseView.getMouse();
+            mouseView.setRefPitch(mouseView.getCurrentPitch());
 
-            mouse.refPitch = mouse.pitch;
-
-            Toast.makeText(this,"Calibrated pitch to be "+mouse.refPitch,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Calibrated pitch to be "+mouseView.getRefPitch(),Toast.LENGTH_SHORT).show();
 
         }
         return true;

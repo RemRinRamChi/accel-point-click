@@ -26,9 +26,11 @@ import static yaujen.bankai.myapplication.Utility.aLog;
 public class MouseView extends SurfaceView implements Runnable, SensorEventListener {
 
     // Tilt configurations
-    private final int POS_TILT_GAIN = 40; // step size of position tilt
+    private final int POS_TILT_GAIN = 35; // step size of position tilt
     private int initialX;
     private int initialY;
+    private int currentPitch;
+    private int refPitch;
 
     volatile boolean mousing;
     private Thread mouseThread = null;
@@ -75,6 +77,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         initialX = context.getResources().getDisplayMetrics().widthPixels/2;
         initialY = (context.getResources().getDisplayMetrics().heightPixels/2);
         mouse = new Mouse(context, initialX, initialY);
+        refPitch =0;
     }
 
     public void registerSensorManagerListeners() {
@@ -107,7 +110,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     private void update() {
         double roll =  sensorFusion.getRoll(); // rotation along x-axis
-        double pitch =  sensorFusion.getPitch() - mouse.refPitch; // rotation along y-axis
+        currentPitch = (int)sensorFusion.getPitch();
+        double pitch =  currentPitch - refPitch; // rotation along y-axis
 
         double tiltMagnitude = Math.sqrt(roll*roll + pitch*pitch);
         double tiltDirection = Math.asin(roll/tiltMagnitude);
@@ -115,7 +119,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         double displacement = tiltMagnitude*POS_TILT_GAIN;
 
         // testing purposes
-        mouse.pitch = (int)pitch;
+        mouse.pitch = currentPitch;
         mouse.roll = (int)roll;
         mouse.dir = tiltDirection;
 
@@ -204,4 +208,15 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         return mouse;
     }
 
+    public int getRefPitch() {
+        return refPitch;
+    }
+
+    public void setRefPitch(int refPitch) {
+        this.refPitch = refPitch;
+    }
+
+    public int getCurrentPitch() {
+        return currentPitch;
+    }
 }

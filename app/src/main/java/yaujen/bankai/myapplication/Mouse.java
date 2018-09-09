@@ -16,7 +16,6 @@ public class Mouse {
     public int pitch;
     public int roll;
     public double dir;
-    public int refPitch;
 
     public Mouse(Context context, int initialX, int initialY){
         this.context = context;
@@ -25,8 +24,6 @@ public class Mouse {
         y = initialY;
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.cursor);
-
-        refPitch =0;
     }
 
 
@@ -34,8 +31,8 @@ public class Mouse {
         x = xVal;
         y = yVal;
 
-        int wPx = context.getResources().getDisplayMetrics().widthPixels - bitmap.getWidth();
-        int hPx = context.getResources().getDisplayMetrics().heightPixels - bitmap.getHeight();
+        int wPx = context.getResources().getDisplayMetrics().widthPixels - bitmap.getWidth()/2;
+        int hPx = context.getResources().getDisplayMetrics().heightPixels - bitmap.getHeight()/2;
 
         // bounding the pointer
         if(x > wPx){
