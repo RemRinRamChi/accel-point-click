@@ -22,9 +22,7 @@ import static yaujen.bankai.myapplication.Utility.dF2;
 public class MainActivity extends AppCompatActivity implements Clicker {
     private MouseView mouseView;
     private TextView someTxt;
-
-    public Handler messageHandler;
-    protected ServiceConnection mServerConn;
+    private BackTapService backTapService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,31 +32,8 @@ public class MainActivity extends AppCompatActivity implements Clicker {
         mouseView = findViewById(R.id.mouseView);
         someTxt = findViewById(R.id.randoTxt);
 
-        messageHandler = new MessageHandler(this);
-        mServerConn = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                System.out.println("service connected");
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName componentName) {
-                System.out.println("service disconnected");
-            }
-        };
-
-        ComponentName componentName = new ComponentName("com.prhlt.aemus.BoDTapService",
-                "com.prhlt.aemus.BoDTapService.BoDTapService");
-        Intent intent = new Intent();
-        intent.putExtra("MESSENGER", new Messenger(messageHandler));
-        intent.setComponent(componentName);
-
-        ComponentName c = this.getApplication().startService(intent);
-        if (c == null) {
-            System.out.println("Failed to start BoDTapService");
-        } else {
-            System.out.println("BoDTap Service started");
-        }
+        backTapService = new BackTapService(this, this);
+        backTapService.startService();
 
         ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +46,7 @@ public class MainActivity extends AppCompatActivity implements Clicker {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ComponentName componentName = new ComponentName("com.prhlt.aemus.BoDTapService",
-                "com.prhlt.aemus.BoDTapService.BoDTapService");
-        Intent intent = new Intent();
-        intent.setComponent(componentName);
-        this.getApplication().stopService(intent);
+        backTapService.stopService();
     }
 
     //pausing the game when activity is paused
