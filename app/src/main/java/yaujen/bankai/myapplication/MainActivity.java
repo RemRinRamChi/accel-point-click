@@ -1,21 +1,14 @@
 package yaujen.bankai.myapplication;
 
 import android.os.SystemClock;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -92,17 +85,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)){
-//            Mouse mouse = mouseView.getMouse();
-//
-//            // hmm not working atm
-//            mouse.calibratePitch = mouse.pitch;
-//
-//            Toast.makeText(this,"Calibrated pitch to be "+mouse.calibratePitch,Toast.LENGTH_SHORT).show();
-//
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)){
+            Mouse mouse = mouseView.getMouse();
+
+            mouse.refPitch = mouse.pitch;
+
+            Toast.makeText(this,"Calibrated pitch to be "+mouse.refPitch,Toast.LENGTH_SHORT).show();
+
+        }
+        return true;
+    }
 }

@@ -25,15 +25,16 @@ import static yaujen.bankai.myapplication.Utility.aLog;
 
 public class MouseView extends SurfaceView implements Runnable, SensorEventListener {
 
+    // Tilt configurations
     private final int POS_TILT_GAIN = 40; // step size of position tilt
+    private int initialX;
+    private int initialY;
 
     volatile boolean mousing;
-
     private Thread mouseThread = null;
-
     private Mouse mouse;
 
-    //These objects will be used for drawing
+    //Objects will be used for drawing
     private Paint paint;
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
@@ -57,9 +58,6 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     private void init(Context context){
-        //initializing player object
-        mouse = new Mouse(context);
-
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
@@ -73,6 +71,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
         sensorFusion = new SensorFusion();
         sensorFusion.setMode(SensorFusion.Mode.FUSION);
+
+        initialX = context.getResources().getDisplayMetrics().widthPixels/2;
+        initialY = (context.getResources().getDisplayMetrics().heightPixels/2);
+        mouse = new Mouse(context, initialX, initialY);
     }
 
     public void registerSensorManagerListeners() {
@@ -105,7 +107,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     private void update() {
         double roll =  sensorFusion.getRoll(); // rotation along x-axis
-        double pitch =  sensorFusion.getPitch(); // rotation along y-axis
+        double pitch =  sensorFusion.getPitch() - mouse.refPitch; // rotation along y-axis
 
         double tiltMagnitude = Math.sqrt(roll*roll + pitch*pitch);
         double tiltDirection = Math.asin(roll/tiltMagnitude);
@@ -123,8 +125,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             yOffSet = -yOffSet; // extra stuff that wasn't in original equation from paper ... hmmm
         }
 
-        mouse.update((int)(mouse.getInitialX() + xOffSet),
-                (int)( mouse.getInitialY() + yOffSet));
+        mouse.update((int)(initialX + xOffSet),
+                (int)(initialY + yOffSet));
     }
 
     private void draw() {
@@ -147,7 +149,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     private void control() {
         try {
-            mouseThread.sleep(17);
+            mouseThread.sleep(20);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

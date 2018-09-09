@@ -6,10 +6,9 @@ import android.graphics.BitmapFactory;
 
 public class Mouse {
     private Bitmap bitmap;
+    private Context context;
 
     //coordinates
-    private int initialX;
-    private int initialY;
     private int x;
     private int y;
 
@@ -17,41 +16,40 @@ public class Mouse {
     public int pitch;
     public int roll;
     public double dir;
-    public int calibratePitch;
+    public int refPitch;
 
-    //motion speed of the character
-    private int speed = 0;
-
-    public Mouse(Context context){
-        initialX = context.getResources().getDisplayMetrics().widthPixels/2;
-        initialY = (context.getResources().getDisplayMetrics().heightPixels/2);
+    public Mouse(Context context, int initialX, int initialY){
+        this.context = context;
 
         x = initialX;
         y = initialY;
 
-        calibratePitch=0;
-
-        speed = 1;
-
-        //Getting bitmap from drawable resource
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.cursor);
+
+        refPitch =0;
     }
 
-    //Method to update coordinate of character
-    public void update(){
-        //updating x coordinate
-        y+=3;
-    }
 
     public void update(int xVal, int yVal){
         x = xVal;
         y = yVal;
+
+        int wPx = context.getResources().getDisplayMetrics().widthPixels - bitmap.getWidth();
+        int hPx = context.getResources().getDisplayMetrics().heightPixels - bitmap.getHeight();
+
+        // bounding the pointer
+        if(x > wPx){
+            x = wPx;
+        } else if (x<0){
+            x = 0;
+        }
+        if(y > hPx){
+            y = hPx;
+        } else if (y<0){
+            y = 0;
+        }
     }
 
-    /*
-     * These are getters you can generate it autmaticallyl
-     * right click on editor -> generate -> getters
-     * */
     public Bitmap getBitmap() {
         return bitmap;
     }
@@ -63,17 +61,4 @@ public class Mouse {
     public int getY() {
         return y;
     }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getInitialX() {
-        return initialX;
-    }
-
-    public int getInitialY() {
-        return initialY;
-    }
-
 }
