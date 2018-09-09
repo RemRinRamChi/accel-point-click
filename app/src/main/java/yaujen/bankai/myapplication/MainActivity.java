@@ -1,10 +1,12 @@
 package yaujen.bankai.myapplication;
 
 import android.os.SystemClock;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,51 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mouseView = findViewById(R.id.mouseView);
         someTxt = findViewById(R.id.randoTxt);
+
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Mouse mouse = mouseView.getMouse();
+
+                // Obtain MotionEvent object
+                long downTime = SystemClock.uptimeMillis();
+                long eventTime = SystemClock.uptimeMillis() + 100;
+                float x = mouse.getX();
+                float y = mouse.getY();
+
+                DecimalFormat df2 = new DecimalFormat(".##");
+
+                someTxt.setText("("+x+", "+y+") p="+mouse.pitch+", r="+mouse.roll+", an°="+df2.format(mouse.dir));
+
+                // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
+                int metaState = 0;
+                MotionEvent motionEvent = MotionEvent.obtain(
+                        downTime,
+                        eventTime,
+                        MotionEvent.ACTION_DOWN,
+                        x,
+                        y,
+                        metaState
+                );
+
+                // Dispatch touch event to view
+                findViewById(R.id.alpha).dispatchTouchEvent(motionEvent);
+
+                metaState = 0;
+                motionEvent = MotionEvent.obtain(
+                        downTime,
+                        eventTime,
+                        MotionEvent.ACTION_UP,
+                        x,
+                        y,
+                        metaState
+                );
+
+                // Dispatch touch event to view
+                findViewById(R.id.alpha).dispatchTouchEvent(motionEvent);
+
+            }
+        });
     }
 
     //pausing the game when activity is paused
