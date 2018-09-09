@@ -27,10 +27,15 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     // Tilt configurations
     private final int POS_TILT_GAIN = 35; // step size of position tilt
-    private int initialX;
-    private int initialY;
-    private int currentPitch;
-    private int refPitch;
+    private final int VEL_TILT_GAIN = 100;
+    private final double SAMPLING_RATE = 0.02;
+
+    private boolean positionControl;
+
+    private double initialX;
+    private double initialY;
+    private double currentPitch;
+    private double refPitch;
 
     volatile boolean mousing;
     private Thread mouseThread = null;
@@ -78,6 +83,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         initialY = (context.getResources().getDisplayMetrics().heightPixels/2);
         mouse = new Mouse(context, initialX, initialY);
         refPitch =0;
+        positionControl = false;
     }
 
     public void registerSensorManagerListeners() {
@@ -110,27 +116,39 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     private void update() {
         double roll =  sensorFusion.getRoll(); // rotation along x-axis
-        currentPitch = (int)sensorFusion.getPitch();
+        currentPitch = sensorFusion.getPitch();
         double pitch =  currentPitch - refPitch; // rotation along y-axis
 
         double tiltMagnitude = Math.sqrt(roll*roll + pitch*pitch);
         double tiltDirection = Math.asin(roll/tiltMagnitude);
-
-        double displacement = tiltMagnitude*POS_TILT_GAIN;
+        double velocity = VEL_TILT_GAIN*tiltMagnitude;
+        double displacementPOS = tiltMagnitude*POS_TILT_GAIN;
+        double displacementVEL = velocity*SAMPLING_RATE;
 
         // testing purposes
         mouse.pitch = currentPitch;
-        mouse.roll = (int)roll;
+        mouse.roll = roll;
         mouse.dir = tiltDirection;
 
-        double xOffSet = displacement*Math.sin(tiltDirection);
-        double yOffSet = displacement*Math.cos(tiltDirection);
-        if(pitch > 0){
-            yOffSet = -yOffSet; // extra stuff that wasn't in original equation from paper ... hmmm
-        }
+        if(positionControl){
+            double xOffSet = displacementPOS*Math.sin(tiltDirection);
+            double yOffSet = displacementPOS*Math.cos(tiltDirection);
+            if(pitch > 0){
+                yOffSet = -yOffSet; // extra stuff that wasn't in original equation from paper ... hmmm
+            }
 
-        mouse.update((int)(initialX + xOffSet),
-                (int)(initialY + yOffSet));
+            mouse.update((initialX + xOffSet),
+                    (initialY + yOffSet));
+        } else {
+            double xOffSet = displacementVEL*Math.sin(tiltDirection);
+            double yOffSet = displacementVEL*Math.cos(tiltDirection);
+            if(pitch > 0){
+                yOffSet = -yOffSet; // extra stuff that wasn't in original equation from paper ... hmmm
+            }
+
+            mouse.displace(xOffSet,
+                    yOffSet);
+        }
     }
 
     private void draw() {
@@ -143,8 +161,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             //Drawing the player
             canvas.drawBitmap(
                     mouse.getBitmap(),
-                    mouse.getX(),
-                    mouse.getY(),
+                    (float) mouse.getX(),
+                    (float) mouse.getY(),
                     paint);
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
@@ -153,7 +171,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     private void control() {
         try {
-            mouseThread.sleep(20);
+            mouseThread.sleep((long)(SAMPLING_RATE*1000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -208,15 +226,19 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         return mouse;
     }
 
-    public int getRefPitch() {
+    public double getRefPitch() {
         return refPitch;
     }
 
-    public void setRefPitch(int refPitch) {
+    public void setRefPitch(double refPitch) {
         this.refPitch = refPitch;
     }
 
-    public int getCurrentPitch() {
+    public double getCurrentPitch() {
         return currentPitch;
+    }
+
+    public void toggleControl(){
+        positionControl = !positionControl;
     }
 }

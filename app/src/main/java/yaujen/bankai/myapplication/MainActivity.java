@@ -5,10 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+
+import static yaujen.bankai.myapplication.Utility.dF2;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mouseView = findViewById(R.id.mouseView);
         someTxt = findViewById(R.id.randoTxt);
+
+        ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mouseView.toggleControl();
+            }
+        });
+
     }
 
     //pausing the game when activity is paused
@@ -47,12 +59,10 @@ public class MainActivity extends AppCompatActivity {
             // Obtain MotionEvent object
             long downTime = SystemClock.uptimeMillis();
             long eventTime = SystemClock.uptimeMillis() + 100;
-            float x = mouse.getX();
-            float y = mouse.getY();
+            float x = (float)mouse.getX();
+            float y = (float)mouse.getY();
 
-            DecimalFormat df2 = new DecimalFormat(".##");
-
-            someTxt.setText("("+x+", "+y+") p="+mouse.pitch+", r="+mouse.roll+", an°="+df2.format(mouse.dir));
+            someTxt.setText("("+dF2(x)+", "+dF2(y)+") p="+dF2(mouse.pitch)+", r="+dF2(mouse.roll)+", an°="+dF2(mouse.dir));
 
             // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
             int metaState = 0;
