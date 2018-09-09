@@ -10,46 +10,25 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private MouseView mouseView;
+    private TextView someTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mouseView = new MouseView(this);
-        //setContentView(mouseView);
         setContentView(R.layout.activity_main);
         mouseView = findViewById(R.id.mouseView);
-
-
-//        ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(MainActivity.this,"Hi 1",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        ((Button)findViewById(R.id.button2)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(MainActivity.this,"Hi 2",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(MainActivity.this,"Hi 3",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
+        someTxt = findViewById(R.id.randoTxt);
     }
 
     //pausing the game when activity is paused
@@ -70,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
-            //mouseView.dispatchKeyEvent(event);
-
             Mouse mouse = mouseView.getMouse();
 
             // Obtain MotionEvent object
@@ -79,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
             long eventTime = SystemClock.uptimeMillis() + 100;
             float x = mouse.getX();
             float y = mouse.getY();
+
+            DecimalFormat df2 = new DecimalFormat(".##");
+
+            someTxt.setText("("+x+", "+y+") p="+mouse.pitch+", r="+mouse.roll+", an°="+df2.format(mouse.dir));
 
             // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
             int metaState = 0;
@@ -111,27 +92,17 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
- /*   @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        (findViewById(R.id.alpha)).dispatchTouchEvent(event);
-
-        int X = (int) event.getX();
-        int Y = (int) event.getY();
-        int eventaction = event.getAction();
-
-        switch (eventaction) {
-            case MotionEvent.ACTION_DOWN:
-                Log.e("Hi","ACTION_DOWN AT COORDS "+"X: "+X+" Y: "+Y);
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                Log.e("Hi","MOVE "+"X: "+X+" Y: "+Y);
-                break;
-
-            case MotionEvent.ACTION_UP:
-                Log.e("Hi","ACTION_UP "+"X: "+X+" Y: "+Y);
-                break;
-        }
-        return true;
-    }*/
+//    @Override
+//    public boolean onKeyUp(int keyCode, KeyEvent event) {
+//        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)){
+//            Mouse mouse = mouseView.getMouse();
+//
+//            // hmm not working atm
+//            mouse.calibratePitch = mouse.pitch;
+//
+//            Toast.makeText(this,"Calibrated pitch to be "+mouse.calibratePitch,Toast.LENGTH_SHORT).show();
+//
+//        }
+//        return true;
+//    }
 }

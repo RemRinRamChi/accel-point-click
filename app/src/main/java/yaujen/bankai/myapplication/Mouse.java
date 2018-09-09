@@ -8,15 +8,29 @@ public class Mouse {
     private Bitmap bitmap;
 
     //coordinates
+    private int initialX;
+    private int initialY;
     private int x;
     private int y;
+
+    // TODO delete these fields later, dev purposes only
+    public int pitch;
+    public int roll;
+    public double dir;
+    public int calibratePitch;
 
     //motion speed of the character
     private int speed = 0;
 
     public Mouse(Context context){
-        x = 75;
-        y = 50;
+        initialX = context.getResources().getDisplayMetrics().widthPixels/2;
+        initialY = (context.getResources().getDisplayMetrics().heightPixels/2);
+
+        x = initialX;
+        y = initialY;
+
+        calibratePitch=0;
+
         speed = 1;
 
         //Getting bitmap from drawable resource
@@ -27,6 +41,11 @@ public class Mouse {
     public void update(){
         //updating x coordinate
         y+=3;
+    }
+
+    public void update(int xVal, int yVal){
+        x = xVal;
+        y = yVal;
     }
 
     /*
@@ -49,5 +68,12 @@ public class Mouse {
         return speed;
     }
 
+    public int getInitialX() {
+        return initialX;
+    }
+
+    public int getInitialY() {
+        return initialY;
+    }
 
 }
