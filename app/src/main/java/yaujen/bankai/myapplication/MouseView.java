@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,11 +15,13 @@ import android.hardware.SensorManager;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import static android.content.Context.SENSOR_SERVICE;
@@ -33,6 +36,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private int posTiltGain = 35; // step size of position tilt
     private int velTiltGain = 100;
     private final double SAMPLING_RATE = 0.02;
+    private final float BEZEL_THRESHHOLD = 50.0f;
 
     private boolean positionControl;
 
@@ -366,6 +370,28 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         }
 
         return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        aLog("Bezel", event.getX()+" "+event.getY());
+
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Point size = new Point();
+        Display display = wm.getDefaultDisplay();
+        display.getSize(size);
+        int width = size.x;
+
+        if (event.getX() < BEZEL_THRESHHOLD) {
+            click();
+            aLog("Bezel", "Touched left");
+        } else if (event.getX() > width - BEZEL_THRESHHOLD) {
+            click();
+            aLog("Bezel", "Touched right");
+        } else {
+            aLog("Bezel", "Didn't touch bezel");
+        }
+        return super.onTouchEvent(event);
     }
 
     /**
