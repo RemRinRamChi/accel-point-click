@@ -1,6 +1,5 @@
 package yaujen.bankai.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,23 +10,20 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 import static android.content.Context.SENSOR_SERVICE;
-import static yaujen.bankai.myapplication.Utility.aLog;
 
+/**
+ * SurfaceView implementation to simulate a surface view for the accelerometer-based mouse to move on
+ */
 public class MouseView extends SurfaceView implements Runnable, SensorEventListener {
-
     // Tilt configurations
-    private final int POS_TILT_GAIN = 35; // step size of position tilt
-    private final int VEL_TILT_GAIN = 100;
+    private int posTiltGain = 35; // step size of position tilt
+    private int velTiltGain = 100;
     private final double SAMPLING_RATE = 0.02;
 
     private boolean positionControl;
@@ -86,7 +82,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         positionControl = false;
     }
 
-    public void registerSensorManagerListeners() {
+    private void registerSensorManagerListeners() {
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_GAME);
@@ -121,8 +117,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
         double tiltMagnitude = Math.sqrt(roll*roll + pitch*pitch);
         double tiltDirection = Math.asin(roll/tiltMagnitude);
-        double velocity = VEL_TILT_GAIN*tiltMagnitude;
-        double displacementPOS = tiltMagnitude*POS_TILT_GAIN;
+        double velocity = velTiltGain *tiltMagnitude;
+        double displacementPOS = tiltMagnitude* posTiltGain;
         double displacementVEL = velocity*SAMPLING_RATE;
 
         // testing purposes
@@ -177,6 +173,9 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         }
     }
 
+    /**
+     * Method to be called in activity's {@link FragmentActivity#onPause()} method
+     */
     public void pause() {
         //when the game is paused
         //setting the variable to false
@@ -190,6 +189,9 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         sensorManager.unregisterListener(this);
     }
 
+    /**
+     * Method to be called in activity's {@link FragmentActivity#onResume()} method
+     */
     public void resume() {
         //when the game is resumed
         //starting the thread again
@@ -222,23 +224,80 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         }
     }
 
+    /**
+     * Gets the mouse object on the mouse view
+     *
+     * @return Mouse object to query positions
+     */
     public Mouse getMouse(){
         return mouse;
     }
 
+    /**
+     * Gets reference Value used for calibration of the initial pitch value
+     * @return Reference Value used for calibration of the initial pitch value
+     */
     public double getRefPitch() {
         return refPitch;
     }
 
+    /**
+     * Sets the reference pitch added to the rest pitch of 0, when the phone is laid flat
+     *
+     * @param refPitch Reference Value used for calibration of the initial pitch value
+     */
     public void setRefPitch(double refPitch) {
         this.refPitch = refPitch;
     }
 
+    /**
+     * @return Actual pitch value detected by sensors
+     */
     public double getCurrentPitch() {
         return currentPitch;
     }
 
+    /**
+     * Toggles between position and velocity control of pointer,
+     * velocity control is then default
+     */
     public void toggleControl(){
         positionControl = !positionControl;
+    }
+
+    /**
+     * Sets the tilt gain value for position control
+     * @param positionTiltGain Tilt gain value if position control is selected
+     */
+    public void setPosTiltGain(int positionTiltGain) {
+        this.posTiltGain = positionTiltGain;
+    }
+
+    /**
+     * Sets the tilt gain value for velocity control
+     * @param velTiltGain Tilt gain value if position control is selected
+     */
+    public void setVelTiltGain(int velTiltGain) {
+        this.velTiltGain = velTiltGain;
+    }
+
+    /**
+     * Sets the point of reference for the mouse,
+     * Position control: Base point of the mouse {initial point and point when mouse is returned to refence position}
+     *
+     * @param initialX
+     */
+    public void setXReference(double initialX) {
+        this.initialX = initialX;
+    }
+
+    /**
+     * Sets the point of reference for the mouse,
+     * Position control: Base point of the mouse {initial point and point when mouse is returned to refence position}
+     *
+     * @param initialY
+     */
+    public void setYReference(double initialY) {
+        this.initialY = initialY;
     }
 }
