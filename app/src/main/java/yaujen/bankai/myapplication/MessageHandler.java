@@ -30,21 +30,8 @@ public class MessageHandler extends Handler {
             e.printStackTrace();
         }
 
-        switch (tap) {
-            case 0:
-                // no tap
-                break;
-            case 1:
-                System.out.println("BTAP SINGLE");
-                clicker.click();
-                break;
-            case 2:
-                System.out.println("BTAP DOUBLE");
-                clicker.click();
-                break;
-            default:
-                System.out.println("Not recognised");
-                break;
+        if (tap == 1 || tap == 2) {
+            clicker.click();
         }
     }
 }
