@@ -87,7 +87,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/overlay_button"/>
+    <include layout="@layout/movable_overlay_button"/>
 
 
 </android.support.constraint.ConstraintLayout>

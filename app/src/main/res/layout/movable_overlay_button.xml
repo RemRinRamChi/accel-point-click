@@ -10,7 +10,7 @@
     app:layout_constraintTop_toTopOf="parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.FloatingActionButton
+    <yaujen.bankai.myapplication.MovableFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="86dp"
         android:layout_height="86dp"

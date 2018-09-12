@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements Clicker {
             }
         });
 
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
+        MovableFloatingActionButton myFab = findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 click();
