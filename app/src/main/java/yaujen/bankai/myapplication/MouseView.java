@@ -13,14 +13,20 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -60,6 +66,9 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private ClickingMethod clickingMethod;
     private View view;
     private BackTapService backTapService;
+
+    // Clicking Floating Button
+    private MovableFloatingActionButton buttonClicker;
 
 
     public MouseView(Context context){
@@ -104,6 +113,35 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         setFocusableInTouchMode(true);
         setFocusable(true);
         requestFocus();
+    }
+
+    /**
+     * The movable button is hidden at the start, so please call the method {@link MouseView#setClickingMethod(ClickingMethod)}
+     * @param mFab
+     */
+    public void setMovableFloatingActionButton(MovableFloatingActionButton mFab){
+        buttonClicker = mFab;
+        buttonClicker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                click();
+            }
+        });
+        this.enableOrDisableMovableFloatingActionButton(false);
+    }
+
+    /**
+     * Hides or shows the movable button
+     * @param enable
+     */
+    public void enableOrDisableMovableFloatingActionButton(boolean enable){
+        if(buttonClicker != null){
+            if (enable) {
+                buttonClicker.show();
+                buttonClicker.setAlpha(0.2f);
+            } else {
+                buttonClicker.hide();
+            }
+        }
     }
 
     private void registerSensorManagerListeners() {
@@ -295,19 +333,19 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     public void setClickingMethod(ClickingMethod clickingMethod) {
         this.clickingMethod = clickingMethod;
+        this.enableOrDisableMovableFloatingActionButton(false);
+        backTapService.stopService();
 
         switch(clickingMethod) {
             case BACK_TAP:
                 backTapService.startService();
                 break;
             case BEZEL_SWIPE:
-                backTapService.stopService();
                 break;
             case VOLUME_DOWN:
-                backTapService.stopService();
                 break;
             case FLOATING_BUTTON:
-                backTapService.stopService();
+                this.enableOrDisableMovableFloatingActionButton(true);
                 break;
             default:
                 break;

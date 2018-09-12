@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static yaujen.bankai.myapplication.Utility.aLog;
 import static yaujen.bankai.myapplication.Utility.dF2;
 
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private MouseView mouseView;
     private TextView someTxt;
     private ConstraintLayout constraintLayout;
+
+    private MovableFloatingActionButton movableButtonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +37,28 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout = findViewById(R.id.layout);
 
         mouseView = new MouseView(this);
+        movableButtonView = new MovableFloatingActionButton(this);
 
-
-        ConstraintLayout.LayoutParams newParams = new ConstraintLayout.LayoutParams(
+        ConstraintLayout.LayoutParams fullScreenParams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT);
 
-        newParams.leftToLeft = 0;
-        newParams.topToTop = 0;
-        newParams.leftMargin = 0;
-        newParams.topMargin = 0;
+        fullScreenParams.leftToLeft = 0;
+        fullScreenParams.topToTop = 0;
+        fullScreenParams.leftMargin = 0;
+        fullScreenParams.topMargin = 0;
 
-        constraintLayout.addView(mouseView, -1, newParams);
+        ConstraintLayout.LayoutParams fabParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+        fabParams.rightToRight = 0;
+        fabParams.topToTop = 100;
+
+        constraintLayout.addView(mouseView, -1, fullScreenParams);
+        constraintLayout.addView(movableButtonView, constraintLayout.getChildCount(),fabParams);
+
+        mouseView.setMovableFloatingActionButton(movableButtonView);
 
         mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
         mouseView.setView(findViewById(R.id.alpha));
@@ -72,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
                     mouseView.setClickingMethod(ClickingMethod.BEZEL_SWIPE);
                     someTxt.setText("Current clicking method: Bezel Swipe");
                     Toast.makeText(view.getContext(),"Clicking method switched to Bezel Swipe", Toast.LENGTH_SHORT).show();
+                } else if (mouseView.getClickingMethod() == ClickingMethod.BEZEL_SWIPE){
+                    mouseView.setClickingMethod(ClickingMethod.FLOATING_BUTTON);
+                    someTxt.setText("Current clicking method: Floating Button");
+                    Toast.makeText(view.getContext(),"Clicking method switched to Floating Button", Toast.LENGTH_SHORT).show();
                 } else {
                     mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
                     someTxt.setText("Current clicking method: Back Tap");
@@ -83,17 +100,16 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"yao sux", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(),"Clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //click();
-            }
-        });
+
+
+        // MovableFloatingActionButton mFab = findViewById(R.id.mFab);
+
+
     }
 
     @Override
