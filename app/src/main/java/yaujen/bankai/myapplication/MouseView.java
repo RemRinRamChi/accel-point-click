@@ -115,6 +115,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         requestFocus();
     }
 
+    /**
+     * The movable button is hidden at the start, so please call the method {@link MouseView#setClickingMethod(ClickingMethod)}
+     * @param mFab
+     */
     public void setMovableFloatingActionButton(MovableFloatingActionButton mFab){
         buttonClicker = mFab;
         buttonClicker.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +126,18 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 click();
             }
         });
+        this.enableOrDisableMovableFloatingActionButton(false);
     }
 
+    /**
+     * Hides or shows the movable button
+     * @param enable
+     */
     public void enableOrDisableMovableFloatingActionButton(boolean enable){
         if(buttonClicker != null){
             if (enable) {
                 buttonClicker.show();
+                buttonClicker.setAlpha(0.2f);
             } else {
                 buttonClicker.hide();
             }
@@ -323,19 +333,19 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     public void setClickingMethod(ClickingMethod clickingMethod) {
         this.clickingMethod = clickingMethod;
+        this.enableOrDisableMovableFloatingActionButton(false);
+        backTapService.stopService();
 
         switch(clickingMethod) {
             case BACK_TAP:
                 backTapService.startService();
                 break;
             case BEZEL_SWIPE:
-                backTapService.stopService();
                 break;
             case VOLUME_DOWN:
-                backTapService.stopService();
                 break;
             case FLOATING_BUTTON:
-                backTapService.stopService();
+                this.enableOrDisableMovableFloatingActionButton(true);
                 break;
             default:
                 break;

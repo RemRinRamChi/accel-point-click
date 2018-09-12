@@ -16,8 +16,8 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     private float downRawX, downRawY;
     private float dX, dY;
 
-    private final static int DEFAULT_BUTTON_SIZE = 1000;        // Default button Size
-    private final static int DEFAULT_BUTTON_COLOR = Color.RED;  // Default button Color
+    private final static int DEFAULT_BUTTON_SIZE = 150;        // Default button Size
+    private final static int DEFAULT_BUTTON_COLOR = Color.parseColor("#44FF4081");  // Default button Color
 
     public MovableFloatingActionButton(Context context) {
         super(context);
@@ -39,7 +39,9 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     }
 
     public void setButtonColor(int color){
-        this.setBackgroundTintList(ColorStateList.valueOf(color));
+        //this.setBackgroundTintList(ColorStateList.valueOf(color));
+        this.setBackgroundColor(color);
+        this.setAlpha(0.1f);
     }
 
     public void setButtonSize(int size){
