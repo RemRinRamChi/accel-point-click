@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static yaujen.bankai.myapplication.Utility.aLog;
 import static yaujen.bankai.myapplication.Utility.dF2;
 
 
@@ -57,14 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        
-        
-        MovableFloatingActionButton myFab = findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //click();
-            }
-        });
+
+
+
+        MovableFloatingActionButton mFab = findViewById(R.id.mFab);
+
+        mouseView.setMovableFloatingActionButton(mFab);
+        mouseView.enableOrDisableMovableFloatingActionButton(false);
     }
 
     @Override

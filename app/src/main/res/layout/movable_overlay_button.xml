@@ -11,7 +11,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <yaujen.bankai.myapplication.MovableFloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/mFab"
         android:layout_width="86dp"
         android:layout_height="86dp"
         android:layout_alignParentBottom="true"

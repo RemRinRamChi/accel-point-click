@@ -13,14 +13,20 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -60,6 +66,9 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private ClickingMethod clickingMethod;
     private View view;
     private BackTapService backTapService;
+
+    // Clicking Floating Button
+    private MovableFloatingActionButton buttonClicker;
 
 
     public MouseView(Context context){
@@ -104,6 +113,25 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         setFocusableInTouchMode(true);
         setFocusable(true);
         requestFocus();
+    }
+
+    public void setMovableFloatingActionButton(MovableFloatingActionButton mFab){
+        buttonClicker = mFab;
+        buttonClicker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                click();
+            }
+        });
+    }
+
+    public void enableOrDisableMovableFloatingActionButton(boolean enable){
+        if(buttonClicker != null){
+            if (enable) {
+                buttonClicker.show();
+            } else {
+                buttonClicker.hide();
+            }
+        }
     }
 
     private void registerSensorManagerListeners() {

@@ -3,6 +3,7 @@ package yaujen.bankai.myapplication;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -22,7 +23,10 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         super(context);
         init();
     }
-
+    public MovableFloatingActionButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
     public MovableFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
@@ -41,6 +45,13 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     public void setButtonSize(int size){
         this.setCustomSize(size);
     }
+
+//    public void enableDisableViewBehaviour(CoordinatorLayout.Behavior<View> behavior, boolean enable){
+//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) this.getLayoutParams();
+//        params.setBehavior(behavior);
+//        this.requestLayout();
+//        this.setVisibility((enable ? View.VISIBLE : View.GONE));
+//    }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent){
