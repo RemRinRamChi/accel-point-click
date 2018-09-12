@@ -1,6 +1,8 @@
 package yaujen.bankai.myapplication;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -13,6 +15,8 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     private float downRawX, downRawY;
     private float dX, dY;
 
+    private final static int DEFAULT_BUTTON_SIZE = 1000;        // Default button Size
+    private final static int DEFAULT_BUTTON_COLOR = Color.RED;  // Default button Color
 
     public MovableFloatingActionButton(Context context) {
         super(context);
@@ -26,6 +30,16 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
     private void init() {
         setOnTouchListener(this);
+        this.setButtonSize(DEFAULT_BUTTON_SIZE);
+        this.setButtonColor(DEFAULT_BUTTON_COLOR);
+    }
+
+    public void setButtonColor(int color){
+        this.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+
+    public void setButtonSize(int size){
+        this.setCustomSize(size);
     }
 
     @Override
