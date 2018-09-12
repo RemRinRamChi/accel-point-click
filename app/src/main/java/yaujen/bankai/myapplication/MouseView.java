@@ -374,22 +374,26 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        aLog("Bezel", event.getX()+" "+event.getY());
+        if (clickingMethod == ClickingMethod.BEZEL_SWIPE) {
 
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        Point size = new Point();
-        Display display = wm.getDefaultDisplay();
-        display.getSize(size);
-        int width = size.x;
+            aLog("Bezel", event.getX() + " " + event.getY());
 
-        if (event.getX() < BEZEL_THRESHHOLD) {
-            click();
-            aLog("Bezel", "Touched left");
-        } else if (event.getX() > width - BEZEL_THRESHHOLD) {
-            click();
-            aLog("Bezel", "Touched right");
-        } else {
-            aLog("Bezel", "Didn't touch bezel");
+            WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+            Point size = new Point();
+            Display display = wm.getDefaultDisplay();
+            display.getSize(size);
+            int width = size.x;
+
+            if (event.getX() < BEZEL_THRESHHOLD) {
+                click();
+                aLog("Bezel", "Touched left");
+            } else if (event.getX() > width - BEZEL_THRESHHOLD) {
+                click();
+                aLog("Bezel", "Touched right");
+            } else {
+                aLog("Bezel", "Didn't touch bezel");
+            }
+
         }
         return super.onTouchEvent(event);
     }
