@@ -50,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 if (mouseView.getClickingMethod() == ClickingMethod.BACK_TAP) {
                     mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
                     Toast.makeText(view.getContext(),"Clicking method switched to Volume Down", Toast.LENGTH_SHORT).show();
+                } else if (mouseView.getClickingMethod() == ClickingMethod.VOLUME_DOWN){
+                    mouseView.setClickingMethod(ClickingMethod.BEZEL_SWIPE);
+                    Toast.makeText(view.getContext(),"Clicking method switched to Bezel Swipe", Toast.LENGTH_SHORT).show();
                 } else {
                     mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
                     Toast.makeText(view.getContext(),"Clicking method switched to Back Tap", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -61,14 +63,8 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mouseView.getClickingMethod() == ClickingMethod.BACK_TAP) {
-                    mouseView.setClickingMethod(ClickingMethod.BEZEL_SWIPE);
-                    Toast.makeText(view.getContext(),"Clicking method switched to Bezel Swipe", Toast.LENGTH_SHORT).show();
-                } else {
-                    mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
-                    Toast.makeText(view.getContext(),"Clicking method switched to Back Tap", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(),"yao sux", Toast.LENGTH_SHORT).show();
 
-                }
             }
         });
 

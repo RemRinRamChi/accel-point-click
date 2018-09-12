@@ -30,7 +30,7 @@ public class MessageHandler extends Handler {
             e.printStackTrace();
         }
 
-        if (tap == 1 || tap == 2) {
+        if (tap == 1) {
             clicker.click();
         }
     }
