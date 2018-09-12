@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,19 +25,35 @@ import static yaujen.bankai.myapplication.Utility.dF2;
 public class MainActivity extends AppCompatActivity {
     private MouseView mouseView;
     private TextView someTxt;
-    private BackTapService backTapService;
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        mouseView = findViewById(R.id.mouseView);
+        constraintLayout = findViewById(R.id.layout);
+
+        mouseView = new MouseView(this);
+
+
+        ConstraintLayout.LayoutParams newParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT);
+
+        newParams.leftToLeft = 0;
+        newParams.topToTop = 0;
+        newParams.leftMargin = 0;
+        newParams.topMargin = 0;
+
+        constraintLayout.addView(mouseView, -1, newParams);
+
         mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
         mouseView.setView(findViewById(R.id.alpha));
         mouseView.setFocusable(true);
 
         someTxt = findViewById(R.id.randoTxt);
+        someTxt.setText("Current clicking method: Volume Down");
 
         ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,12 +67,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (mouseView.getClickingMethod() == ClickingMethod.BACK_TAP) {
                     mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
+                    someTxt.setText("Current clicking method: Volume Down");
                     Toast.makeText(view.getContext(),"Clicking method switched to Volume Down", Toast.LENGTH_SHORT).show();
+                } else if (mouseView.getClickingMethod() == ClickingMethod.VOLUME_DOWN){
+                    mouseView.setClickingMethod(ClickingMethod.BEZEL_SWIPE);
+                    someTxt.setText("Current clicking method: Bezel Swipe");
+                    Toast.makeText(view.getContext(),"Clicking method switched to Bezel Swipe", Toast.LENGTH_SHORT).show();
                 } else {
                     mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
+                    someTxt.setText("Current clicking method: Back Tap");
                     Toast.makeText(view.getContext(),"Clicking method switched to Back Tap", Toast.LENGTH_SHORT).show();
-
                 }
+            }
+        });
+
+        ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(),"yao sux", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -70,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        backTapService.stopService();
     }
 
     //pausing the game when activity is paused
@@ -86,7 +115,5 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mouseView.resume();
     }
-
-
 
 }

@@ -391,7 +391,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 click();
                 return true;
             } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
-                setRefPitch(getCurrentPitch());
+                calibratePitch();
                 Toast.makeText(getContext(),"Calibrated pitch to be "+ getRefPitch(),Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -402,22 +402,26 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        aLog("Bezel", event.getX()+" "+event.getY());
+        if (clickingMethod == ClickingMethod.BEZEL_SWIPE) {
 
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        Point size = new Point();
-        Display display = wm.getDefaultDisplay();
-        display.getSize(size);
-        int width = size.x;
+            aLog("Bezel", event.getX() + " " + event.getY());
 
-        if (event.getX() < BEZEL_THRESHHOLD) {
-            click();
-            aLog("Bezel", "Touched left");
-        } else if (event.getX() > width - BEZEL_THRESHHOLD) {
-            click();
-            aLog("Bezel", "Touched right");
-        } else {
-            aLog("Bezel", "Didn't touch bezel");
+            WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+            Point size = new Point();
+            Display display = wm.getDefaultDisplay();
+            display.getSize(size);
+            int width = size.x;
+
+            if (event.getX() < BEZEL_THRESHHOLD) {
+                click();
+                aLog("Bezel", "Touched left");
+            } else if (event.getX() > width - BEZEL_THRESHHOLD) {
+                click();
+                aLog("Bezel", "Touched right");
+            } else {
+                aLog("Bezel", "Didn't touch bezel");
+            }
+
         }
         return super.onTouchEvent(event);
     }
@@ -456,5 +460,13 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      */
     public void setYReference(double initialY) {
         this.initialY = initialY;
+    }
+
+
+    /**
+     * Calibrate the accelerometer based pointer to use the current pitch as the reference point, resting position
+     */
+    public void calibratePitch(){
+        setRefPitch(currentPitch);
     }
 }
