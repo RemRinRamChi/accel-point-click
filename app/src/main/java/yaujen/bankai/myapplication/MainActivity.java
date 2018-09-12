@@ -20,7 +20,7 @@ import android.widget.Toast;
 import static yaujen.bankai.myapplication.Utility.dF2;
 
 
-public class MainActivity extends AppCompatActivity implements Clicker {
+public class MainActivity extends AppCompatActivity {
     private MouseView mouseView;
     private TextView someTxt;
     private BackTapService backTapService;
@@ -31,10 +31,11 @@ public class MainActivity extends AppCompatActivity implements Clicker {
 
         setContentView(R.layout.activity_main);
         mouseView = findViewById(R.id.mouseView);
-        someTxt = findViewById(R.id.randoTxt);
+        mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
+        mouseView.setView(findViewById(R.id.alpha));
+        mouseView.setFocusable(true);
 
-        backTapService = new BackTapService(this, this);
-        backTapService.startService();
+        someTxt = findViewById(R.id.randoTxt);
 
         ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +44,25 @@ public class MainActivity extends AppCompatActivity implements Clicker {
             }
         });
 
+        ((Button)findViewById(R.id.button2)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mouseView.getClickingMethod() == ClickingMethod.BACK_TAP) {
+                    mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
+                    Toast.makeText(view.getContext(),"Clicking method switched to Volume Down", Toast.LENGTH_SHORT).show();
+                } else {
+                    mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
+                    Toast.makeText(view.getContext(),"Clicking method switched to Back Tap", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+        
+        
         MovableFloatingActionButton myFab = findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                click();
+                //click();
             }
         });
     }
@@ -72,62 +88,5 @@ public class MainActivity extends AppCompatActivity implements Clicker {
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
-            click();
-        }
-        return true;
-    }
 
-    @Override
-    public void click() {
-        Mouse mouse = mouseView.getMouse();
-
-        // Obtain MotionEvent object
-        long downTime = SystemClock.uptimeMillis();
-        long eventTime = SystemClock.uptimeMillis() + 100;
-        float x = (float)mouse.getX();
-        float y = (float)mouse.getY();
-
-        someTxt.setText("("+dF2(x)+", "+dF2(y)+") p="+dF2(mouse.pitch)+", r="+dF2(mouse.roll)+", an°="+dF2(mouse.dir));
-
-        // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
-        int metaState = 0;
-        MotionEvent motionEvent = MotionEvent.obtain(
-                downTime,
-                eventTime,
-                MotionEvent.ACTION_DOWN,
-                x,
-                y,
-                metaState
-        );
-
-        // Dispatch touch event to view
-        findViewById(R.id.alpha).dispatchTouchEvent(motionEvent);
-
-        metaState = 0;
-        motionEvent = MotionEvent.obtain(
-                downTime,
-                eventTime,
-                MotionEvent.ACTION_UP,
-                x,
-                y,
-                metaState
-        );
-
-        // Dispatch touch event to view
-        findViewById(R.id.alpha).dispatchTouchEvent(motionEvent);
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)){
-            mouseView.setRefPitch(mouseView.getCurrentPitch());
-
-            Toast.makeText(this,"Calibrated pitch to be "+mouseView.getRefPitch(),Toast.LENGTH_SHORT).show();
-
-        }
-        return true;
-    }
 }

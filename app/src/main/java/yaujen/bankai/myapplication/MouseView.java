@@ -1,30 +1,42 @@
 package yaujen.bankai.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.view.Display;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import static android.content.Context.SENSOR_SERVICE;
+import static yaujen.bankai.myapplication.Utility.aLog;
+
 
 /**
  * SurfaceView implementation to simulate a surface view for the accelerometer-based mouse to move on
  */
-public class MouseView extends SurfaceView implements Runnable, SensorEventListener {
+public class MouseView extends SurfaceView implements Runnable, SensorEventListener, Clicker {
     // Tilt configurations
     private int posTiltGain = 35; // step size of position tilt
     private int velTiltGain = 100;
     private final double SAMPLING_RATE = 0.02;
+    private final float BEZEL_THRESHHOLD = 50.0f;
 
     private boolean positionControl;
 
@@ -44,6 +56,11 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     private SensorFusion sensorFusion;
     private SensorManager sensorManager = null;
+
+    private ClickingMethod clickingMethod;
+    private View view;
+    private BackTapService backTapService;
+
 
     public MouseView(Context context){
         super(context);
@@ -80,6 +97,13 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         mouse = new Mouse(context, initialX, initialY);
         refPitch =0;
         positionControl = false;
+
+        backTapService = new BackTapService((Activity)getContext(), this);
+        clickingMethod = ClickingMethod.BACK_TAP;
+
+        setFocusableInTouchMode(true);
+        setFocusable(true);
+        requestFocus();
     }
 
     private void registerSensorManagerListeners() {
@@ -263,6 +287,111 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      */
     public void toggleControl(){
         positionControl = !positionControl;
+    }
+
+    public ClickingMethod getClickingMethod() {
+        return clickingMethod;
+    }
+
+    public void setClickingMethod(ClickingMethod clickingMethod) {
+        this.clickingMethod = clickingMethod;
+
+        switch(clickingMethod) {
+            case BACK_TAP:
+                backTapService.startService();
+                break;
+            case BEZEL_SWIPE:
+                backTapService.stopService();
+                break;
+            case VOLUME_DOWN:
+                backTapService.stopService();
+                break;
+            case FLOATING_BUTTON:
+                backTapService.stopService();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    @Override
+    public void click() {
+        aLog("dad","CLICK");
+        // Obtain MotionEvent object
+        long downTime = SystemClock.uptimeMillis();
+        long eventTime = SystemClock.uptimeMillis() + 100;
+        float x = (float)mouse.getX();
+        float y = (float)mouse.getY();
+
+        // List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
+        int metaState = 0;
+        MotionEvent motionEvent = MotionEvent.obtain(
+                downTime,
+                eventTime,
+                MotionEvent.ACTION_DOWN,
+                x,
+                y,
+                metaState
+        );
+
+        // Dispatch touch event to view
+        view.dispatchTouchEvent(motionEvent);
+
+        metaState = 0;
+        motionEvent = MotionEvent.obtain(
+                downTime,
+                eventTime,
+                MotionEvent.ACTION_UP,
+                x,
+                y,
+                metaState
+        );
+
+        // Dispatch touch event to view
+        view.dispatchTouchEvent(motionEvent);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        aLog("MouseView", "KEY EVENT DETECTED");
+        if (clickingMethod == ClickingMethod.VOLUME_DOWN && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                click();
+                return true;
+            } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
+                setRefPitch(getCurrentPitch());
+                Toast.makeText(getContext(),"Calibrated pitch to be "+ getRefPitch(),Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        aLog("Bezel", event.getX()+" "+event.getY());
+
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Point size = new Point();
+        Display display = wm.getDefaultDisplay();
+        display.getSize(size);
+        int width = size.x;
+
+        if (event.getX() < BEZEL_THRESHHOLD) {
+            click();
+            aLog("Bezel", "Touched left");
+        } else if (event.getX() > width - BEZEL_THRESHHOLD) {
+            click();
+            aLog("Bezel", "Touched right");
+        } else {
+            aLog("Bezel", "Didn't touch bezel");
+        }
+        return super.onTouchEvent(event);
     }
 
     /**
