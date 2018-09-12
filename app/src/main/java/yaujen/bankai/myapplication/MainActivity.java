@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,14 +24,29 @@ import static yaujen.bankai.myapplication.Utility.dF2;
 public class MainActivity extends AppCompatActivity {
     private MouseView mouseView;
     private TextView someTxt;
-    private BackTapService backTapService;
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        mouseView = findViewById(R.id.mouseView);
+        constraintLayout = findViewById(R.id.layout);
+
+        mouseView = new MouseView(this);
+
+
+        ConstraintLayout.LayoutParams newParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT);
+
+        newParams.leftToLeft = 0;
+        newParams.topToTop = 0;
+        newParams.leftMargin = 0;
+        newParams.topMargin = 0;
+
+        constraintLayout.addView(mouseView, -1, newParams);
+
         mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
         mouseView.setView(findViewById(R.id.alpha));
         mouseView.setFocusable(true);
@@ -79,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        backTapService.stopService();
     }
 
     //pausing the game when activity is paused
@@ -95,7 +110,5 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mouseView.resume();
     }
-
-
 
 }

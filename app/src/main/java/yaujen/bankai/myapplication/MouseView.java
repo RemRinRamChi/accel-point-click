@@ -363,7 +363,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 click();
                 return true;
             } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
-                setRefPitch(getCurrentPitch());
+                calibratePitch();
                 Toast.makeText(getContext(),"Calibrated pitch to be "+ getRefPitch(),Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -432,5 +432,13 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      */
     public void setYReference(double initialY) {
         this.initialY = initialY;
+    }
+
+
+    /**
+     * Calibrate the accelerometer based pointer to use the current pitch as the reference point, resting position
+     */
+    public void calibratePitch(){
+        setRefPitch(currentPitch);
     }
 }
