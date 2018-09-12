@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mouseView.setFocusable(true);
 
         someTxt = findViewById(R.id.randoTxt);
+        someTxt.setText("Current clicking method: Volume Down");
 
         ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,12 +50,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (mouseView.getClickingMethod() == ClickingMethod.BACK_TAP) {
                     mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
+                    someTxt.setText("Current clicking method: Volume Down");
                     Toast.makeText(view.getContext(),"Clicking method switched to Volume Down", Toast.LENGTH_SHORT).show();
                 } else if (mouseView.getClickingMethod() == ClickingMethod.VOLUME_DOWN){
                     mouseView.setClickingMethod(ClickingMethod.BEZEL_SWIPE);
+                    someTxt.setText("Current clicking method: Bezel Swipe");
                     Toast.makeText(view.getContext(),"Clicking method switched to Bezel Swipe", Toast.LENGTH_SHORT).show();
                 } else {
                     mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
+                    someTxt.setText("Current clicking method: Back Tap");
                     Toast.makeText(view.getContext(),"Clicking method switched to Back Tap", Toast.LENGTH_SHORT).show();
                 }
             }
