@@ -1,4 +1,3 @@
-package yaujen.bankai.myapplication;
 /************************************************************************************
  * Copyright (c) 2012 Paul Lawitzki
  * Copyright (c) 2014 Jose Collas : Wrapper code
@@ -23,7 +22,7 @@ package yaujen.bankai.myapplication;
  * OR OTHER DEALINGS IN THE SOFTWARE.
  ************************************************************************************/
 
-
+package yaujen.bankai.myapplication;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.util.Log;

@@ -1,11 +1,15 @@
 package yaujen.bankai.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import static yaujen.bankai.myapplication.Utility.aLog;
 
+/**
+ * Mouse object to keep track of and update the coordinates of the on screen pointer
+ */
 public class Mouse {
     private Bitmap bitmap;
     private Context context;
@@ -13,11 +17,6 @@ public class Mouse {
     //coordinates
     private double x;
     private double y;
-
-    // TODO delete these fields later, dev purposes only
-    public double pitch;
-    public double roll;
-    public double dir;
 
     public Mouse(Context context, double initialX, double initialY){
         this.context = context;
@@ -58,11 +57,36 @@ public class Mouse {
         return bitmap;
     }
 
+    public void setBitmap(Bitmap newBitmap) {
+        bitmap = newBitmap;
+    }
+
     public double getX() {
         return x;
     }
 
     public double getY() {
         return y;
+    }
+
+    /**
+     * Returns MapleStory mouse bitmap
+     * @param activity
+     * @return MapleStory mouse bitmap
+     */
+    public static Bitmap getMouseBitmap1(Activity activity) {
+        return BitmapFactory.decodeResource(activity.getResources(), R.drawable.cursor);
+    }
+
+    /**
+     * Returns umu mouse bitmap
+     *
+     * source: https://twitter.com/gzn_pp/status/855705455431110657
+     *
+     * @param activity
+     * @return umu mouse bitmap
+     */
+    public static Bitmap getMouseBitmap2(Activity activity) {
+        return BitmapFactory.decodeResource(activity.getResources(), R.drawable.seibacur);
     }
 }

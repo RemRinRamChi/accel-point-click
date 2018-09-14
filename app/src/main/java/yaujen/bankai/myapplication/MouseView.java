@@ -2,6 +2,7 @@ package yaujen.bankai.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -69,7 +70,6 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     // Clicking Floating Button
     private MovableFloatingActionButton buttonClicker;
-
 
     public MouseView(Context context){
         super(context);
@@ -161,13 +161,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     @Override
     public void run() {
         while (mousing){
-            //to update the frame
             update();
-
-            //to draw the frame
             draw();
-
-            //to control
             control();
         }
     }
@@ -182,11 +177,6 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         double velocity = velTiltGain *tiltMagnitude;
         double displacementPOS = tiltMagnitude* posTiltGain;
         double displacementVEL = velocity*SAMPLING_RATE;
-
-        // testing purposes
-        mouse.pitch = currentPitch;
-        mouse.roll = roll;
-        mouse.dir = tiltDirection;
 
         if(positionControl){
             double xOffSet = displacementPOS*Math.sin(tiltDirection);
@@ -210,19 +200,14 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     private void draw() {
-        //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
-            //locking the canvas
             canvas = surfaceHolder.lockCanvas();
-            //drawing a background color for canvas
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            //Drawing the player
             canvas.drawBitmap(
                     mouse.getBitmap(),
                     (float) mouse.getX(),
                     (float) mouse.getY(),
                     paint);
-            //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
@@ -239,11 +224,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      * Method to be called in activity's {@link FragmentActivity#onPause()} method
      */
     public void pause() {
-        //when the game is paused
-        //setting the variable to false
+        // mousing to false when activity is paused
         mousing = false;
         try {
-            //stopping the thread
+            // stop the thread
             mouseThread.join();
         } catch (InterruptedException e) {
         }
@@ -255,8 +239,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      * Method to be called in activity's {@link FragmentActivity#onResume()} method
      */
     public void resume() {
-        //when the game is resumed
-        //starting the thread again
+        // mousing to false when activity is resumed
         mousing = true;
         mouseThread = new Thread(this);
         mouseThread.start();
@@ -287,12 +270,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
-     * Gets the mouse object on the mouse view
-     *
-     * @return Mouse object to query positions
+     * Sets the bitmap of the mouse object
      */
-    public Mouse getMouse(){
-        return mouse;
+    public void setMouseBitmap(Bitmap newBitmap){
+        mouse.setBitmap(newBitmap);
     }
 
     /**
