@@ -3,6 +3,7 @@ package yaujen.bankai.myapplication;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
 
     private MovableFloatingActionButton movableButtonView;
+
+    private boolean cursorToggler = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +103,12 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button3)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"Clicked", Toast.LENGTH_SHORT).show();
+                if(cursorToggler){
+                    mouseView.setMouseBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.seibacur));
+                } else {
+                    mouseView.setMouseBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.cursor));
+                }
+                cursorToggler = !cursorToggler;
 
             }
         });

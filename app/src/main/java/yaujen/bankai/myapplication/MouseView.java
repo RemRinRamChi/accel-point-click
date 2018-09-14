@@ -2,6 +2,7 @@ package yaujen.bankai.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -287,12 +288,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
-     * Gets the mouse object on the mouse view
-     *
-     * @return Mouse object to query positions
+     * Sets the bitmap of the mouse object
      */
-    public Mouse getMouse(){
-        return mouse;
+    public void setMouseBitmap(Bitmap newBitmap){
+        mouse.setBitmap(newBitmap);
     }
 
     /**

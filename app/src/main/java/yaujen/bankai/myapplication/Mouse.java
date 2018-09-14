@@ -58,6 +58,10 @@ public class Mouse {
         return bitmap;
     }
 
+    public void setBitmap(Bitmap newBitmap) {
+        bitmap = newBitmap;
+    }
+
     public double getX() {
         return x;
     }
