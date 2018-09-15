@@ -1,11 +1,11 @@
-package yaujen.bankai.myapplication;
+package yaujen.bankai.pointandclick;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import static yaujen.bankai.myapplication.Utility.aLog;
+import com.example.pointandclick.R;
 
 /**
  * Mouse object to keep track of and update the coordinates of the on screen pointer

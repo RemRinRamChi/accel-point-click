@@ -1,4 +1,4 @@
-package yaujen.bankai.myapplication;
+package yaujen.bankai.pointandclick;
 
 import android.os.Handler;
 import android.os.Message;

@@ -1,26 +1,17 @@
 package yaujen.bankai.myapplication;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Messenger;
-import android.os.SystemClock;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static yaujen.bankai.myapplication.Utility.aLog;
-import static yaujen.bankai.myapplication.Utility.dF2;
+import yaujen.bankai.pointandclick.ClickingMethod;
+import yaujen.bankai.pointandclick.Mouse;
+import yaujen.bankai.pointandclick.MouseView;
+import yaujen.bankai.pointandclick.MovableFloatingActionButton;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -65,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
         mouseView.setView(findViewById(R.id.alpha));
-        mouseView.setFocusable(true);
 
         someTxt = findViewById(R.id.randoTxt);
         someTxt.setText("Current clicking method: Volume Down");
