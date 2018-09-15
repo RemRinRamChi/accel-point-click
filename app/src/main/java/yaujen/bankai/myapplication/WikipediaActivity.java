@@ -1,7 +1,5 @@
 package yaujen.bankai.myapplication;
 
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,13 +9,17 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import yaujen.bankai.pointandclick.ClickingMethod;
 import yaujen.bankai.pointandclick.MouseView;
@@ -28,11 +30,12 @@ import static yaujen.bankai.pointandclick.Utility.aLog;
 public class WikipediaActivity extends AppCompatActivity {
     private MouseView mouseView;
     private ConstraintLayout constraintLayout;
-    private TextView counter;
+    private TextView linksLeft;
     private TextView bodyText;
 
     private MovableFloatingActionButton movableButtonView;
 
+    private List<String> links;
     private int correctClicks;
     private int totalClicks;
 
@@ -66,7 +69,7 @@ public class WikipediaActivity extends AppCompatActivity {
 
         mouseView.setClickingMethod(ClickingMethod.valueOf(clickingMethod));
 
-        counter = findViewById(R.id.counter);
+        linksLeft = findViewById(R.id.links);
 
         bodyText = findViewById(R.id.bodyText);
         bodyText.setOnClickListener(new View.OnClickListener() {
@@ -92,14 +95,24 @@ public class WikipediaActivity extends AppCompatActivity {
         Spanned spanned = Html.fromHtml(text);
         final Spannable spannable = new SpannableStringBuilder(spanned);
 
+        links = new ArrayList<>();
         URLSpan[] urlSpans = spanned.getSpans(0, spanned.length(), URLSpan.class);
 
         for (final URLSpan urlSpan: urlSpans) {
+            final String url = urlSpan.getURL();
+
+            if (!url.equals("-1")) {
+                links.add(url);
+            }
+
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(View view) {
-                    correctClicks++;
-                    updateText();
+                    if (links.contains(url)) {
+                        links.remove(url);
+                        correctClicks++;
+                        updateText();
+                    }
                     aLog("Wikipedia", "Clicked " + urlSpan.getURL());
                 }
             };
@@ -111,6 +124,7 @@ public class WikipediaActivity extends AppCompatActivity {
             spannable.removeSpan(urlSpan);
         }
 
+        updateText();
         bodyText.setText(spannable);
         bodyText.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -118,7 +132,16 @@ public class WikipediaActivity extends AppCompatActivity {
 
 
     private void updateText() {
-        counter.setText((Math.round((double) correctClicks / totalClicks * 100)) + "% (" + correctClicks + "/" + totalClicks + ")");
+        if (links.size() > 0) {
+            Iterator<String> iterator = links.iterator();
+            String linksRemaining = "<b>Click these links:</b><br>";
+            while (iterator.hasNext()) {
+                linksRemaining += iterator.next() + "<br>";
+            }
+            linksLeft.setText(Html.fromHtml(linksRemaining));
+        } else {
+            linksLeft.setText((Html.fromHtml("<b>Done!</b>")));
+        }
     }
 
     //pausing the game when activity is paused
