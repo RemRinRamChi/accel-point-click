@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.pointandclick.R;
-
 /**
  * Mouse object to keep track of and update the coordinates of the on screen pointer
  */
