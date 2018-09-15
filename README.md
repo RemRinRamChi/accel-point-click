@@ -2,8 +2,8 @@
 accel-point-click is a Android library for accelerometer-based pointing and clicking. It supports:
 
 2 control modes for pointing:
-- Velocity-control - Pointer acts like a ball under the effects of gravity.
-- Position-control - Pointer has an initial position and tilt the device moves the pointer away from the initial position.
+- *Velocity-control* - Pointer acts like a ball under the effects of gravity.
+- *Position-control* - Pointer has an initial position and tilt the device moves the pointer away from the initial position.
 
 4 ways of clicking:
 - *Bezel Swiping* - Small swipe away from any position of the device’s bezel (edge frame of the device) triggers a click.
@@ -67,6 +67,22 @@ mouseView.setPosTiltGain(TILT_GAIN);
 mouseView.setVelTiltGain(TILT_GAIN);
 ```
 
+More customisation options
+```java
+// Sets the bitmap of the pointer
+mouseView.setMouseBitmap(bitmap);
+
+// Sets the reference pitch added to the rest pitch of 0, when the device is laid flat
+mouseView.setRefPitch(refPitch);
+// same as setRefPitch but the refPitch value is the current pitch of the device
+mouseView.calibratePitch();
+
+// Sets the initial point of the pointer
+mouseView.setXReference(xRef);
+mouseView.setYReference(yRef);
+
+```
+
 #### Customising pointer clicking method
 Choosing the clicking method for the pointer
 ```java
@@ -86,14 +102,13 @@ mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
 mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
 
 ```
-Back Tapping requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application starts a service that will listen to back taps.
+Back Tapping requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
 
 Customising the floating button
 ```java
-hmm yeah
+Alex takeover, write down any limitation after
 ```
 
 
-
 ## Download
-Import the AAR file
+Import the AAR file // Andy yoyo
