@@ -13,6 +13,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -135,12 +137,21 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      */
     public void enableOrDisableMovableFloatingActionButton(boolean enable){
         if(buttonClicker != null){
-            if (enable) {
-                buttonClicker.show();
-                buttonClicker.setAlpha(0.2f);
-            } else {
-                buttonClicker.hide();
-            }
+//            if (enable) {
+//                buttonClicker.show();
+////                Handler uiHandler = new Handler(Looper.getMainLooper());
+////                uiHandler.post(new Runnable() {
+////                    @Override
+////                    public void run() {
+////                        buttonClicker.setAlpha(0.1f);
+////
+////                    }
+////                });
+//            } else {
+//                buttonClicker.hide();
+//            }
+            buttonClicker.enableOrDisableButton(enable);
+            buttonClicker.setAlpha(0.1f);
         }
     }
 
