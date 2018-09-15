@@ -385,6 +385,9 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (event.getSource() == 0) {
+            return super.onTouchEvent(event);
+        }
         if (clickingMethod == ClickingMethod.BEZEL_SWIPE) {
 
             aLog("Bezel", event.getX() + " " + event.getY());
