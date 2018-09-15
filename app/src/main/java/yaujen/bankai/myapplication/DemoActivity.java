@@ -79,7 +79,7 @@ public class DemoActivity extends AppCompatActivity {
                 Intent myIntent = null;
 
                 if(task.equals(Tasks.Keyboard.name())){
-                    myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
+                    myIntent = new Intent(DemoActivity.this, KeyboardActivity.class);
                 } else if(task.equals(Tasks.Numpad.name())){
                     myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
                 } else if(task.equals(Tasks.Wikipedia.name())){

@@ -25,6 +25,7 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".KeyboardActivity"></activity>
     </application>
 
 </manifest>
