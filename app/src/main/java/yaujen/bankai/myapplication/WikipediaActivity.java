@@ -46,7 +46,7 @@ public class WikipediaActivity extends AppCompatActivity {
         // How to use mouse view
         mouseView = new MouseView(this);
         constraintLayout.addView(mouseView, -1, MouseView.getFullScreenConstraintLayoutParams());
-        mouseView.setClickingTargetView(constraintLayout);
+        mouseView.setClickingTargetView(findViewById(R.id.clickableLayout));
 
         // How to add fab clicking
         movableButtonView = new MovableFloatingActionButton(this);
