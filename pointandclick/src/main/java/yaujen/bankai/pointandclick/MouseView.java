@@ -349,6 +349,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 y,
                 metaState
         );
+        motionEvent.setSource(420);
 
         // Dispatch touch event to view
         targetView.dispatchTouchEvent(motionEvent);
@@ -362,6 +363,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 y,
                 metaState
         );
+        motionEvent.setSource(420);
 
         // Dispatch touch event to view
         targetView.dispatchTouchEvent(motionEvent);
@@ -385,11 +387,12 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getSource() == 0) {
+        if (event.getSource() == 420) {
+            aLog("Bezel", "own source");
             return super.onTouchEvent(event);
         }
         if (clickingMethod == ClickingMethod.BEZEL_SWIPE) {
-
+            aLog("Bezel", "bezel");
             aLog("Bezel", event.getX() + " " + event.getY());
 
             WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -407,9 +410,9 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             } else {
                 aLog("Bezel", "Didn't touch bezel");
             }
-
+            return true;
         }
-        return super.onTouchEvent(event);
+        return false;
     }
 
     /**

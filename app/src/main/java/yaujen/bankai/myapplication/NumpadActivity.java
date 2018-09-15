@@ -19,6 +19,8 @@ import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_TILT_GAIN;
 import static yaujen.bankai.myapplication.ResultsActivity.KEY_NAME_ERR_COUNT;
 import static yaujen.bankai.myapplication.ResultsActivity.KEY_NAME_TIME_TAKEN;
 
+import static yaujen.bankai.pointandclick.Utility.aLog;
+
 public class NumpadActivity extends AppCompatActivity {
     private MouseView mouseView;
     private TextView numberField;
