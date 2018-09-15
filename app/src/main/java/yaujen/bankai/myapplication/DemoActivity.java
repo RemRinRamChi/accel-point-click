@@ -83,7 +83,7 @@ public class DemoActivity extends AppCompatActivity {
                 } else if(task.equals(Tasks.Numpad.name())){
                     myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
                 } else if(task.equals(Tasks.Wikipedia.name())){
-                    myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
+                    myIntent = new Intent(DemoActivity.this, WikipediaActivity.class);
                 }
 
                 if(myIntent != null) {
