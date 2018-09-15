@@ -13,11 +13,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.Display;
@@ -63,7 +60,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private SensorManager sensorManager = null;
 
     private ClickingMethod clickingMethod;
-    private View view;
+    private View targetView;
     private BackTapService backTapService;
 
     // Clicking Floating Button
@@ -326,13 +323,16 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         }
     }
 
-    public void setClickingTargetView(View view) {
-        this.view = view;
+    /**
+     * Sets the whole area for clicking, this should be top most parent view of the activity
+     * @param topMostView
+     */
+    public void setClickingTargetView(View topMostView) {
+        this.targetView = topMostView;
     }
 
     @Override
     public void click() {
-        aLog("dad","CLICK");
         // Obtain MotionEvent object
         long downTime = SystemClock.uptimeMillis();
         long eventTime = SystemClock.uptimeMillis() + 100;
@@ -351,7 +351,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         );
 
         // Dispatch touch event to view
-        view.dispatchTouchEvent(motionEvent);
+        targetView.dispatchTouchEvent(motionEvent);
 
         metaState = 0;
         motionEvent = MotionEvent.obtain(
@@ -364,12 +364,11 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         );
 
         // Dispatch touch event to view
-        view.dispatchTouchEvent(motionEvent);
+        targetView.dispatchTouchEvent(motionEvent);
     }
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        aLog("MouseView", "KEY EVENT DETECTED");
         if (clickingMethod == ClickingMethod.VOLUME_DOWN && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
                 click();

@@ -5,43 +5,53 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="onBadClicku"
     tools:context=".NumpadActivity">
 
     <LinearLayout
         android:id="@+id/alpha"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:onClick="onBadClicku"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/startBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/start_name" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35000002">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/numkey_vertical_margins"
             android:gravity="center"
-            android:text="TextView" />
+            android:onClick="onBadClicku"
+            android:text="@string/numpad_query"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/numField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:hint="• • • • • • • • • •"
+            android:onClick="onBadClicku"
+            android:textColor="@android:color/black"
+            android:textSize="36sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/numkey_vertical_margins"
             android:gravity="center"
+            android:onClick="onBadClicku"
             android:orientation="horizontal">
 
             <Button
@@ -51,7 +61,9 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="1" />
+                android:onClick="onClicku"
+                android:text="1"
+                android:textSize="@dimen/numkey_text" />
 
             <Button
                 android:id="@+id/btn2"
@@ -60,7 +72,9 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="2" />
+                android:onClick="onClicku"
+                android:text="2"
+                android:textSize="@dimen/numkey_text" />
 
             <Button
                 android:id="@+id/btn3"
@@ -68,7 +82,9 @@
                 android:layout_height="@dimen/numkey_size"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="3" />
+                android:onClick="onClicku"
+                android:text="3"
+                android:textSize="@dimen/numkey_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -77,6 +93,7 @@
             android:layout_marginTop="@dimen/numkey_vertical_margins"
 
             android:gravity="center"
+            android:onClick="onBadClicku"
             android:orientation="horizontal">
 
             <Button
@@ -86,7 +103,9 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="4" />
+                android:onClick="onClicku"
+                android:text="4"
+                android:textSize="@dimen/numkey_text" />
 
             <Button
                 android:id="@+id/btn5"
@@ -95,7 +114,9 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="5" />
+                android:onClick="onClicku"
+                android:text="5"
+                android:textSize="@dimen/numkey_text" />
 
             <Button
                 android:id="@+id/btn6"
@@ -103,7 +124,9 @@
                 android:layout_height="@dimen/numkey_size"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="6" />
+                android:onClick="onClicku"
+                android:text="6"
+                android:textSize="@dimen/numkey_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,6 +135,7 @@
             android:layout_marginTop="@dimen/numkey_vertical_margins"
             android:gravity="center"
 
+            android:onClick="onBadClicku"
             android:orientation="horizontal">
 
             <Button
@@ -121,7 +145,9 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="7" />
+                android:onClick="onClicku"
+                android:text="7"
+                android:textSize="@dimen/numkey_text" />
 
             <Button
                 android:id="@+id/btn8"
@@ -130,7 +156,9 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="8" />
+                android:onClick="onClicku"
+                android:text="8"
+                android:textSize="@dimen/numkey_text" />
 
             <Button
                 android:id="@+id/btn9"
@@ -138,7 +166,9 @@
                 android:layout_height="@dimen/numkey_size"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="9" />
+                android:onClick="onClicku"
+                android:text="9"
+                android:textSize="@dimen/numkey_text" />
         </LinearLayout>
 
 
@@ -148,6 +178,7 @@
             android:layout_marginTop="@dimen/numkey_vertical_margins"
             android:gravity="center"
 
+            android:onClick="onBadClicku"
             android:orientation="horizontal">
 
             <Button
@@ -157,7 +188,10 @@
                 android:layout_marginEnd="@dimen/numkey_side_margins"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="*"/>
+                android:onClick="onStartClicku"
+                android:text="S"
+                android:textSize="@dimen/numkey_text"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btn0"
@@ -167,7 +201,8 @@
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
                 android:onClick="onClicku"
-                android:text="0" />
+                android:text="0"
+                android:textSize="@dimen/numkey_text" />
 
 
             <Button
@@ -176,7 +211,12 @@
                 android:layout_height="@dimen/numkey_size"
                 android:layout_weight="0"
                 android:background="@drawable/button_rounded"
-                android:text="#" />
+                android:onClick="onFinishClicku"
+                android:text="E"
+                android:textSize="@dimen/numkey_text"
+                android:visibility="visible" />
+
         </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
