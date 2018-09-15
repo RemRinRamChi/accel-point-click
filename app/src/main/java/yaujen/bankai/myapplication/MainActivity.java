@@ -1,5 +1,6 @@
 package yaujen.bankai.myapplication;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mouseView.toggleControl();
+                switchActivity();
             }
         });
 
@@ -113,4 +114,8 @@ public class MainActivity extends AppCompatActivity {
         mouseView.resume();
     }
 
+    private void switchActivity() {
+        Intent intent = new Intent(this, WikipediaActivity.class);
+        startActivity(intent);
+    }
 }
