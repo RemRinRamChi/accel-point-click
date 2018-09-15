@@ -2,14 +2,14 @@
 accel-point-click is a Android library for accelerometer-based pointing and clicking. It supports:
 
 2 control modes for pointing:
-- *Velocity-control* - Pointer acts like a ball under the effects of gravity.
-- *Position-control* - Pointer has an initial position and tilt the device moves the pointer away from the initial position.
+- **Velocity-control** - Pointer acts like a ball under the effects of gravity.
+- **Position-control** - Pointer has an initial position and tilt the device moves the pointer away from the initial position.
 
 4 ways of clicking:
-- *Bezel Swiping* - Small swipe away from any position of the device’s bezel (edge frame of the device) triggers a click.
-- *Floating Button* - A small floating button for clicking, that can be moved around or overlayed at the bezel of the device.
-- *Volume Down Button* - Volume down button is overridden to register a click when pressed on.
-- *Back Tapping* - Tapping the back of the device triggers a click.
+- **Bezel Swiping** - Small swipe away from any position of the device’s bezel (edge frame of the device) triggers a click.
+- **Floating Button** - A small floating button for clicking, that can be moved around or overlayed at the bezel of the device.
+- **Volume Down Button** - Volume down button is overridden to register a click when pressed on.
+- **Back Tapping** - Tapping the back of the device triggers a click.
 
 ## Usage
 The pointer exists in a separate full screen view and is added to the activity either through the activity's code or the layout file. 
@@ -32,7 +32,7 @@ constraintLayout.addView(mouseView, -1, MouseView.getFullScreenConstraintLayoutP
 mouseView.setClickingTargetView(findViewById(R.id.root_layout));
 ```
 
-The following lifecycle methods of tbe activity will need to be overriden. It ensures that resources are freed up when the application is not running.
+The following lifecycle methods of the activity will need to be overriden. It ensures that resources are freed up when the application is not running.
 ```java
 @Override
 protected void onPause() {
@@ -106,9 +106,11 @@ Back Tapping requires the installation of a [separate application](https://play.
 
 Customising the floating button
 ```java
-Alex takeover, write down any limitation after
+Alex takeover, write down any limitations after
 ```
 
+## Demo Application
+Installation guide
 
 ## Download
 Import the AAR file // Andy yoyo
