@@ -9,8 +9,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import yaujen.bankai.pointandclick.ClickingMethod;
 import yaujen.bankai.pointandclick.MouseView;
 import yaujen.bankai.pointandclick.Utility;
+
+import static yaujen.bankai.pointandclick.Utility.aLog;
 
 public class NumpadActivity extends AppCompatActivity {
     private MouseView mouseView;
@@ -36,6 +39,17 @@ public class NumpadActivity extends AppCompatActivity {
         mouseView = new MouseView(this);
         constraintLayout.addView(mouseView, -1, MouseView.getFullScreenConstraintLayoutParams());
         mouseView.setClickingTargetView(findViewById(R.id.layout));
+
+        Bundle extras = getIntent().getExtras();
+        String controlMethod = extras.getString(DemoActivity.KEY_NAME_CONTROL_METHOD);
+        String clickingMethod = extras.getString(DemoActivity.KEY_NAME_CLICKING_METHOD);
+        String tiltGain = extras.getString(DemoActivity.KEY_NAME_TILT_GAIN);
+
+        aLog("Numpad", controlMethod);
+        aLog("Numpad", clickingMethod);
+        aLog("Numpad", tiltGain);
+
+        mouseView.setClickingMethod(ClickingMethod.valueOf(clickingMethod));
     }
 
 
