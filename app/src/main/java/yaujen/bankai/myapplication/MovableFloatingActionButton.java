@@ -3,21 +3,25 @@ package yaujen.bankai.myapplication;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class MovableFloatingActionButton extends FloatingActionButton implements View.OnTouchListener {
     // Reference: Author=ban-geoengineering Source=https://stackoverflow.com/questions/46370836/android-movable-draggable-floating-action-button-fab
-    private final static double CLICK_DRAG_TOLERANCE = 1000; // Often, there will be a slight, unintentional, drag when the user taps the FAB, so we need to account for this.
+    private final static double CLICK_DRAG_TOLERANCE = 10; // Often, there will be a slight, unintentional, drag when the user taps the FAB, so we need to account for this.
 
     private float downRawX, downRawY;
     private float dX, dY;
 
-    private final static int DEFAULT_BUTTON_SIZE = 150;        // Default button Size
-    private final static int DEFAULT_BUTTON_COLOR = Color.parseColor("#44FF4081");  // Default button Color
+    private int buttonSize = 200;        // Default button Size
+    private int buttonColor = Color.CYAN; // Default button Color
+    private float buttonOpacity = 0.1f;
 
     public MovableFloatingActionButton(Context context) {
         super(context);
@@ -34,18 +38,27 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
     private void init() {
         setOnTouchListener(this);
-        this.setButtonSize(DEFAULT_BUTTON_SIZE);
-        this.setButtonColor(DEFAULT_BUTTON_COLOR);
+        this.setButtonSize(buttonSize);
+        this.setButtonColor(buttonColor);
+        this.setButtonOpacity(buttonOpacity);
     }
 
     public void setButtonColor(int color){
-        //this.setBackgroundTintList(ColorStateList.valueOf(color));
-        this.setBackgroundColor(color);
-        this.setAlpha(0.1f);
+        buttonColor = color;
+        this.setBackgroundColor(buttonColor);
+        //this.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        // this.setBackgroundTintList(ColorStateList.valueOf(Color.argb(100,0,0,0)));
+        //this.setBackgroundColor(ColorStateList.valueOf(Color.CYAN));
     }
 
     public void setButtonSize(int size){
-        this.setCustomSize(size);
+        buttonSize = size;
+        this.setCustomSize(buttonSize);
+    }
+
+    public void setButtonOpacity(float opacity){
+        buttonOpacity = opacity;
+        this.setAlpha(buttonOpacity);
     }
 
 //    public void enableDisableViewBehaviour(CoordinatorLayout.Behavior<View> behavior, boolean enable){
@@ -54,6 +67,16 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 //        this.requestLayout();
 //        this.setVisibility((enable ? View.VISIBLE : View.GONE));
 //    }
+
+    public void enableOrDisableButton(boolean enable){
+        if (enable) {
+            this.show();
+            //this.getBackground().setAlpha(1);
+        } else {
+            this.hide();
+        }
+
+    }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent){
