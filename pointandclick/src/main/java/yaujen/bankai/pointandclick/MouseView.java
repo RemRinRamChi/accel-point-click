@@ -106,7 +106,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         positionControl = false;
 
         backTapService = new BackTapService((Activity)getContext(), this);
-        clickingMethod = ClickingMethod.BACK_TAP;
+        clickingMethod = ClickingMethod.VOLUME_DOWN;
 
         setFocusableInTouchMode(true);
         setFocusable(true);
@@ -326,7 +326,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         }
     }
 
-    public void setView(View view) {
+    public void setClickingTargetView(View view) {
         this.view = view;
     }
 
@@ -452,5 +452,39 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      */
     public void calibratePitch(){
         setRefPitch(currentPitch);
+    }
+
+    /**
+     * Convenience method to return the ConstraintLayout.LayoutParams for a full screen view,
+     * such as this MouseView
+     * @return Full screen ConstraintLayout.LayoutParams
+     */
+    public static ConstraintLayout.LayoutParams getFullScreenConstraintLayoutParams(){
+        ConstraintLayout.LayoutParams fullScreenParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT);
+
+        fullScreenParams.leftToLeft = 0;
+        fullScreenParams.topToTop = 0;
+        fullScreenParams.leftMargin = 0;
+        fullScreenParams.topMargin = 0;
+        return fullScreenParams;
+    }
+
+
+    /**
+     * Convenience method to return the ConstraintLayout.LayoutParams for a wrapped view
+     * @param topMargin
+     * @param rightMargin
+     * @return Customised ConstraintLayout.LayoutParams for a wrapped view
+     */
+    public static ConstraintLayout.LayoutParams getFabConstraintLayoutParams(int topMargin, int rightMargin){
+        ConstraintLayout.LayoutParams fabParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+        fabParams.rightToRight = rightMargin;
+        fabParams.topToTop = topMargin;
+        return fabParams;
     }
 }
