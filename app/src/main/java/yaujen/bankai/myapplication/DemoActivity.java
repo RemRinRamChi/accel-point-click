@@ -22,6 +22,17 @@ import yaujen.bankai.pointandclick.ClickingMethod;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class DemoActivity extends AppCompatActivity {
+    public enum Tasks { Keyboard, Numpad, Wikipedia };
+
+    // Dropdown Options
+    public static final String[] CONTROL_METHODS = new String[]{"Position", "Velocity"};
+    public static final String[] TILT_GAINS = new String[]{"10", "15", "20", "25", "30", "35", "40", "45", "50"};
+    public String[] CLICKING_METHODS = new String[]{ClickingMethod.VOLUME_DOWN.name(),ClickingMethod.FLOATING_BUTTON.name(),ClickingMethod.BACK_TAP.name(),ClickingMethod.BEZEL_SWIPE.name() };
+    public static final String[] TASKS = new String[]{Tasks.Keyboard.name(), Tasks.Numpad.name(), Tasks.Wikipedia.name()};
+
+    public static final String KEY_NAME_CONTROL_METHOD = "CONTROL_METHOD";
+    public static final String KEY_NAME_TILT_GAIN = "TILT_GAIN";
+    public static final String KEY_NAME_CLICKING_METHOD = "CLICKING_METHOD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +47,11 @@ public class DemoActivity extends AppCompatActivity {
         Spinner dropdownClickingMethod = findViewById(R.id.clicking_method);
         Spinner dropdownTask = findViewById(R.id.task);
 
-        // Dropdown Options
-        String[] itemsControlMethod = new String[]{"Position", "Velocity"};
-        String[] itemsTiltGain = new String[]{"10", "15", "20", "25", "30", "35", "40", "45", "50"};
-        //List<ClickingMethod> clickingMethods = Arrays.asList(ClickingMethod.values());
-        String[] itemsClickingMethod = new String[]{ "VOLUME_DOWN", "FLOATING_BUTTON", "BACK_TAP", "BEZEL_SWIPE" };
-        //String[] itemsClickingMethod = new String[]{ClickingMethod.values().};
-        String[] itemsTask = new String[]{"Calculator"};
-
         // Adapters to describe how it is displayed
-        ArrayAdapter<String> adapterControlMethod = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsControlMethod);
-        ArrayAdapter<String> adapterTiltGain = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsTiltGain);
-        ArrayAdapter<String> adapterClickingMethod = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsClickingMethod);
-        ArrayAdapter<String> adapterTask = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsTask);
+        ArrayAdapter<String> adapterControlMethod = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, CONTROL_METHODS);
+        ArrayAdapter<String> adapterTiltGain = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, TILT_GAINS);
+        ArrayAdapter<String> adapterClickingMethod = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, CLICKING_METHODS);
+        ArrayAdapter<String> adapterTask = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, TASKS);
 
         //set the spinners adapter to the previously created one.
         dropdownControlMethod.setAdapter(adapterControlMethod);
@@ -69,12 +72,33 @@ public class DemoActivity extends AppCompatActivity {
                 String clickingMethod = dropdownClickingMethod.getSelectedItem().toString();
                 String task = dropdownTask.getSelectedItem().toString();
 
-                String message = "You chose: "+controlMethod+", "+tiltGain+", "+clickingMethod+", "+task;
-                DemoActivity.this.outputMessage(message);
+                // String message = "You chose: "+controlMethod+", "+tiltGain+", "+clickingMethod+", "+task;
+                // DemoActivity.this.outputMessage(message);
 
-                Intent myIntent = new Intent(DemoActivity.this, NextActivity.class);
-                myIntent.putExtra("key", value); //Optional parameters
-                CurrentActivity.this.startActivity(myIntent);
+                // SWITCHING TO DIFFERENT APP
+                Intent myIntent = null;
+
+                if(task.equals(Tasks.Keyboard.name())){
+                    myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
+                } else if(task.equals(Tasks.Numpad.name())){
+                    myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
+                } else if(task.equals(Tasks.Wikipedia.name())){
+                    myIntent = new Intent(DemoActivity.this, NumpadActivity.class);
+                }
+
+                if(myIntent != null) {
+                    myIntent.putExtra(KEY_NAME_CONTROL_METHOD, controlMethod);
+                    myIntent.putExtra(KEY_NAME_TILT_GAIN, tiltGain);
+                    myIntent.putExtra(KEY_NAME_CLICKING_METHOD, clickingMethod);
+                    try {
+                        DemoActivity.this.startActivity(myIntent);
+
+                    } catch (Exception e){
+                        DemoActivity.this.outputMessage(e.getMessage());
+                    }
+                } else {
+                    DemoActivity.this.outputMessage("Intent is null!");
+                }
             }
         });
     }
