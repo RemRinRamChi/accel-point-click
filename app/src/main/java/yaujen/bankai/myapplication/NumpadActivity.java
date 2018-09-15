@@ -97,8 +97,7 @@ public class NumpadActivity extends AppCompatActivity {
     public void onFinishClicku(View view){
         if(finish){
             long timeTaken = System.currentTimeMillis() - startTime;
-            Utility.aLog("hmm",timeTaken+"");
-
+            Utility.aLog("Time taken",timeTaken+"");
 
             Intent intent = new Intent(this, ResultsActivity.class);
             intent.putExtra(KEY_NAME_CONTROL_METHOD, controlMethod);
@@ -118,7 +117,7 @@ public class NumpadActivity extends AppCompatActivity {
         if(!start && !finish){
             if(!numberToEnter.equals("")){
                 char clickuChar = ((Button)view).getText().charAt(0);
-                Utility.aLog("hmm",clickuChar+"");
+                Utility.aLog("Key clicked",clickuChar+"");
                 if(numberToEnter.charAt(0) == clickuChar){
                     if(numberToEnter.length() != 1){
                         numberField.setText(numberField.getText().toString().replaceFirst(" •",clickuChar+""));
@@ -143,7 +142,7 @@ public class NumpadActivity extends AppCompatActivity {
     private void incrementErrorCount(){
         if(!start){
             errorCount++;
-            Utility.aLog("mag",errorCount+"");
+            Utility.aLog("Err count",errorCount+"");
         }
     }
 }
