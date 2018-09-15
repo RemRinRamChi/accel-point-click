@@ -38,17 +38,14 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
     private void init() {
         setOnTouchListener(this);
+        this.setButtonOpacity(buttonOpacity);
         this.setButtonSize(buttonSize);
         this.setButtonColor(buttonColor);
-        this.setButtonOpacity(buttonOpacity);
     }
 
     public void setButtonColor(int color){
         buttonColor = color;
-        this.setBackgroundColor(buttonColor);
-        //this.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
-        // this.setBackgroundTintList(ColorStateList.valueOf(Color.argb(100,0,0,0)));
-        //this.setBackgroundColor(ColorStateList.valueOf(Color.CYAN));
+        this.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
     }
 
     public void setButtonSize(int size){
@@ -68,12 +65,11 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 //        this.setVisibility((enable ? View.VISIBLE : View.GONE));
 //    }
 
-    public void enableOrDisableButton(boolean enable){
-        if (enable) {
-            this.show();
-            //this.getBackground().setAlpha(1);
+    public void setVisibilityButton(boolean visible){
+        if (visible) {
+            this.setVisibility(View.VISIBLE);
         } else {
-            this.hide();
+            this.setVisibility(View.GONE);
         }
 
     }

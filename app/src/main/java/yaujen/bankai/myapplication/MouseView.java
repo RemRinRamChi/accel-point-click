@@ -128,30 +128,16 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 click();
             }
         });
-        this.enableOrDisableMovableFloatingActionButton(false);
+        this.setVisbilityMovableFloatingActionButton(false);
     }
 
     /**
      * Hides or shows the movable button
-     * @param enable
+     * @param visible
      */
-    public void enableOrDisableMovableFloatingActionButton(boolean enable){
+    public void setVisbilityMovableFloatingActionButton(boolean visible){
         if(buttonClicker != null){
-//            if (enable) {
-//                buttonClicker.show();
-////                Handler uiHandler = new Handler(Looper.getMainLooper());
-////                uiHandler.post(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        buttonClicker.setAlpha(0.1f);
-////
-////                    }
-////                });
-//            } else {
-//                buttonClicker.hide();
-//            }
-            buttonClicker.enableOrDisableButton(enable);
-            buttonClicker.setAlpha(0.1f);
+            buttonClicker.setVisibilityButton(visible);
         }
     }
 
@@ -325,7 +311,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     public void setClickingMethod(ClickingMethod clickingMethod) {
         this.clickingMethod = clickingMethod;
-        this.enableOrDisableMovableFloatingActionButton(false);
+        this.setVisbilityMovableFloatingActionButton(false);
         backTapService.stopService();
 
         switch(clickingMethod) {
@@ -337,7 +323,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             case VOLUME_DOWN:
                 break;
             case FLOATING_BUTTON:
-                this.enableOrDisableMovableFloatingActionButton(true);
+                this.setVisbilityMovableFloatingActionButton(true);
                 break;
             default:
                 break;
