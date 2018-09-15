@@ -1,4 +1,4 @@
-package yaujen.bankai.myapplication;
+package yaujen.bankai.pointandclick;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,24 +17,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import static android.content.Context.SENSOR_SERVICE;
-import static yaujen.bankai.myapplication.Utility.aLog;
+import static yaujen.bankai.pointandclick.Utility.aLog;
 
 
 /**

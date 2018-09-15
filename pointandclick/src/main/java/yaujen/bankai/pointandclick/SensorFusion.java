@@ -22,7 +22,7 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  ************************************************************************************/
 
-package yaujen.bankai.myapplication;
+package yaujen.bankai.pointandclick;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.util.Log;

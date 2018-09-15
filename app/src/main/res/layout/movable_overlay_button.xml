@@ -10,7 +10,7 @@
     app:layout_constraintTop_toTopOf="parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <yaujen.bankai.myapplication.MovableFloatingActionButton
+    <yaujen.bankai.pointandclick.MovableFloatingActionButton
         android:id="@+id/mFab"
         android:layout_width="86dp"
         android:layout_height="86dp"
