@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 
+import yaujen.bankai.pointandclick.ClickingMethod;
 import yaujen.bankai.pointandclick.MouseView;
 import yaujen.bankai.pointandclick.MovableFloatingActionButton;
 
@@ -52,6 +53,19 @@ public class WikipediaActivity extends AppCompatActivity {
         constraintLayout.addView(movableButtonView, constraintLayout.getChildCount(),MouseView.getFabConstraintLayoutParams(100,0));
         mouseView.setMovableFloatingActionButton(movableButtonView);
 
+
+        // Set mouse view configuration
+        Bundle extras = getIntent().getExtras();
+        String controlMethod = extras.getString(DemoActivity.KEY_NAME_CONTROL_METHOD);
+        String clickingMethod = extras.getString(DemoActivity.KEY_NAME_CLICKING_METHOD);
+        String tiltGain = extras.getString(DemoActivity.KEY_NAME_TILT_GAIN);
+
+        aLog("Wikipedia", controlMethod);
+        aLog("Wikipedia", clickingMethod);
+        aLog("Wikipedia", tiltGain);
+
+        mouseView.setClickingMethod(ClickingMethod.valueOf(clickingMethod));
+
         counter = findViewById(R.id.counter);
 
         bodyText = findViewById(R.id.bodyText);
@@ -79,8 +93,6 @@ public class WikipediaActivity extends AppCompatActivity {
         final Spannable spannable = new SpannableStringBuilder(spanned);
 
         URLSpan[] urlSpans = spanned.getSpans(0, spanned.length(), URLSpan.class);
-        aLog("Wikipedia", urlSpans.length + " spans");
-
 
         for (final URLSpan urlSpan: urlSpans) {
             ClickableSpan clickableSpan = new ClickableSpan() {
@@ -91,9 +103,6 @@ public class WikipediaActivity extends AppCompatActivity {
                     aLog("Wikipedia", "Clicked " + urlSpan.getURL());
                 }
             };
-
-            aLog("Wikipedia", spannable.getSpanStart(urlSpan) + " start");
-            aLog("Wikipedia", spannable.getSpanEnd(urlSpan) + " end");
 
             spannable.setSpan(clickableSpan,
                     spannable.getSpanStart(urlSpan),
