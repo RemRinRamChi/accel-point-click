@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
         mouseView.setView(findViewById(R.id.alpha));
-        mouseView.setFocusable(true);
 
         someTxt = findViewById(R.id.randoTxt);
         someTxt.setText("Current clicking method: Volume Down");
