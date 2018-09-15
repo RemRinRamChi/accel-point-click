@@ -16,10 +16,8 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import yaujen.bankai.pointandclick.ClickingMethod;
 import yaujen.bankai.pointandclick.MouseView;
@@ -68,9 +66,11 @@ public class WikipediaActivity extends AppCompatActivity {
         aLog("Wikipedia", tiltGain);
 
         mouseView.setClickingMethod(ClickingMethod.valueOf(clickingMethod));
+        // TODO: Set Control Method and Tilt Gain
 
         linksLeft = findViewById(R.id.links);
 
+        // Keeps track of clicks made by the user
         bodyText = findViewById(R.id.bodyText);
         bodyText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +80,11 @@ public class WikipediaActivity extends AppCompatActivity {
             }
         });
 
+        createWikipediaText();
+    }
+
+    private void createWikipediaText() {
+        // Converts sample wikipedia text file into a string
         InputStream is = getResources().openRawResource(R.raw.wikipedia_text);
         String text = "hello";
         try {
