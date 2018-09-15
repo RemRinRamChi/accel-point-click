@@ -19,13 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WikipediaActivity"></activity>
+        <activity android:name=".WikipediaActivity" />
         <activity android:name=".NumpadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".KeyboardActivity"></activity>
+        <activity android:name=".KeyboardActivity" />
+        <activity android:name=".ResultsActivity"></activity>
     </application>
 
 </manifest>

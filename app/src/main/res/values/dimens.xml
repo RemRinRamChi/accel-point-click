@@ -5,6 +5,10 @@
     <dimen name="numkey_vertical_margins">18dp</dimen>
     <dimen name="numkey_text">22sp</dimen>
 
+    <dimen name="results_text">28sp</dimen>
+    <dimen name="results_additional_text">22sp</dimen>
+
+
 
     <dimen name="input_label_vertical_spacing">8dp</dimen>
     <dimen name="input_label_horizontal_spacing">4dp</dimen>

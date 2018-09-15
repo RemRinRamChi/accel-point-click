@@ -294,8 +294,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      * Toggles between position and velocity control of pointer,
      * velocity control is then default
      */
-    public void toggleControl(){
-        positionControl = !positionControl;
+    public void enablePositionControl(boolean toEnable){
+        positionControl = toEnable;
     }
 
     public ClickingMethod getClickingMethod() {
