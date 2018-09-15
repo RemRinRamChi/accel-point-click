@@ -2,4 +2,9 @@
     <string name="app_name">My Application</string>
     <string name="title_activity_demo">DemoActivity</string>
     <string name="start_name">Start</string>
+    <string name="control_method_name">Control Method</string>
+    <string name="tilt_gain_name">Tilt Gain</string>
+    <string name="clicking_method_name">Clicking Method</string>
+    <string name="task_name">Task</string>
+
 </resources>
