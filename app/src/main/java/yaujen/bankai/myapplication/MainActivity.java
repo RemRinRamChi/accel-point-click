@@ -30,32 +30,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         constraintLayout = findViewById(R.id.layout);
 
+        // How to use mouse view
         mouseView = new MouseView(this);
+        constraintLayout.addView(mouseView, -1, MouseView.getFullScreenConstraintLayoutParams());
+        mouseView.setClickingTargetView(findViewById(R.id.alpha));
+
+        // How to add fab clicking
         movableButtonView = new MovableFloatingActionButton(this);
-
-        ConstraintLayout.LayoutParams fullScreenParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT);
-
-        fullScreenParams.leftToLeft = 0;
-        fullScreenParams.topToTop = 0;
-        fullScreenParams.leftMargin = 0;
-        fullScreenParams.topMargin = 0;
-
-        ConstraintLayout.LayoutParams fabParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT);
-
-        fabParams.rightToRight = 0;
-        fabParams.topToTop = 100;
-
-        constraintLayout.addView(mouseView, -1, fullScreenParams);
-        constraintLayout.addView(movableButtonView, constraintLayout.getChildCount(),fabParams);
-
+        constraintLayout.addView(movableButtonView, constraintLayout.getChildCount(),MouseView.getFabConstraintLayoutParams(100,0));
         mouseView.setMovableFloatingActionButton(movableButtonView);
 
-        mouseView.setClickingMethod(ClickingMethod.VOLUME_DOWN);
-        mouseView.setView(findViewById(R.id.alpha));
 
         someTxt = findViewById(R.id.randoTxt);
         someTxt.setText("Current clicking method: Volume Down");
