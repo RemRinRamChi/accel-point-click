@@ -1,10 +1,10 @@
-Android is a <a href="-1">mobile operating system</a> developed by <a href="1">Google</a>, based on a modified version of the <a href="2">Linux kernel</a> and other 
-<a href="3">open source</a> software and designed primarily for <a href="-1">touchscreen</a> mobile devices such as <a href="-1">smartphones</a> and <a href="-1">tablets</a>. In addition, Google has further 
-developed <a href="4">Android TV</a> for televisions, <a href="-1">Android Auto</a> for cars, and <a href="-1">Wear OS</a> for wrist watches, each with a specialized user interface. 
-Variants of Android are also used on <a href="-1">game consoles</a>, <a href="-1">digital cameras</a>, <a href="5">PCs</a> and other electronics.  Initially developed by Android Inc., 
-which Google bought in 2005, Android was unveiled in 2007, with the <a href="6">first commercial Android device</a> launched in September 2008. 
-The operating system has since gone through multiple major releases, with the current version being <a href="7">9.0 &quot;Pie&quot;</a>, 
+Android is a <a href="-1">mobile operating system</a> developed by <a href="Google">Google</a>, based on a modified version of the <a href="Linix kernel">Linux kernel</a> and other 
+<a href="open source">open source</a> software and designed primarily for <a href="-1">touchscreen</a> mobile devices such as <a href="-1">smartphones</a> and <a href="-1">tablets</a>. In addition, Google has further 
+developed <a href="Android TV">Android TV</a> for televisions, <a href="-1">Android Auto</a> for cars, and <a href="-1">Wear OS</a> for wrist watches, each with a specialized user interface. 
+Variants of Android are also used on <a href="-1">game consoles</a>, <a href="-1">digital cameras</a>, <a href="PCs">PCs</a> and other electronics.  Initially developed by Android Inc., 
+which Google bought in 2005, Android was unveiled in 2007, with the <a href="first commercial Android device">first commercial Android device</a> launched in September 2008. 
+The operating system has since gone through multiple major releases, with the current version being <a href="9.0 &quot;Pie&quot;">9.0 &quot;Pie&quot;</a>, 
 released in August 2018. The core Android source code is known as Android Open Source Project (AOSP), and is primarily licensed under
- the <a href="8">Apache License</a>.  Android is also associated with a suite of <a href="-1">proprietary software</a> developed by Google, including core apps for services 
- such as <a href="9">Gmail</a> and <a href="-1">Google Search</a>, as well as the <a href="-1">application store</a> and <a href="-1">digital distribution</a> platform Google Play, and associated <a href="10">development 
+ the <a href="Apache License">Apache License</a>.  Android is also associated with a suite of <a href="-1">proprietary software</a> developed by Google, including core apps for services 
+ such as <a href="Gmail">Gmail</a> and <a href="-1">Google Search</a>, as well as the <a href="-1">application store</a> and <a href="-1">digital distribution</a> platform Google Play, and associated <a href="development platform">development 
  platform</a>.
