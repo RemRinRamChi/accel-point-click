@@ -86,6 +86,7 @@ public class WikipediaActivity extends AppCompatActivity {
         mouseView.setClickingMethod(ClickingMethod.valueOf(clickingMethod));
         mouseView.setPosTiltGain(tiltGain);
         mouseView.setVelTiltGain(tiltGain);
+        mouseView.enableRecalibrationByVolumeUp(true);
 
         linksLeft = findViewById(R.id.links);
 
