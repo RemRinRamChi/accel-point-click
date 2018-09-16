@@ -1,5 +1,6 @@
 package yaujen.bankai.myapplication;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import yaujen.bankai.pointandclick.MovableFloatingActionButton;
 import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_CLICKING_METHOD;
 import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_CONTROL_METHOD;
 import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_TILT_GAIN;
+import static yaujen.bankai.myapplication.ResultsActivity.KEY_NAME_ERR_COUNT;
+import static yaujen.bankai.myapplication.ResultsActivity.KEY_NAME_TIME_TAKEN;
 import static yaujen.bankai.pointandclick.Utility.aLog;
 
 public class WikipediaActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class WikipediaActivity extends AppCompatActivity {
     private Button startButton;
 
     private List<String> links;
+    private long startTime;
     private int correctClicks;
     private int totalClicks;
     private boolean hasStarted;
@@ -46,6 +50,8 @@ public class WikipediaActivity extends AppCompatActivity {
     private String controlMethod;
     private String clickingMethod;
     private int tiltGain;
+
+    private Intent resultsIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +110,7 @@ public class WikipediaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!hasStarted) {
                     hasStarted = true;
+                    startTime = System.currentTimeMillis();
                     updateText();
                 } else if (taskFinished()){
                     goToResults();
@@ -132,12 +139,15 @@ public class WikipediaActivity extends AppCompatActivity {
         links = new ArrayList<>();
         URLSpan[] urlSpans = spanned.getSpans(0, spanned.length(), URLSpan.class);
 
+        // Adds a click listener to every url
         for (final URLSpan urlSpan: urlSpans) {
             final String url = urlSpan.getURL();
 
+            // Only add links we want to the task
             if (!url.equals("-1")) {
                 links.add(url);
             }
+
 
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
@@ -163,6 +173,7 @@ public class WikipediaActivity extends AppCompatActivity {
     }
 
     private void updateText() {
+        // Update list of links to click
         if (!taskFinished()) {
             Iterator<String> iterator = links.iterator();
             String linksRemaining = "<b>Click these links:</b><br>";
@@ -170,15 +181,29 @@ public class WikipediaActivity extends AppCompatActivity {
                 linksRemaining += iterator.next() + "<br>";
             }
             linksLeft.setText(Html.fromHtml(linksRemaining));
-        } else {
+        }
+
+        // Handle when task is finished
+        else {
             totalClicks++; // increment because last link clicked doesn't increment total clicks
+            long timeTaken = System.currentTimeMillis() - startTime;
+
             linksLeft.setText((Html.fromHtml("<b>Done!</b>")));
             startButton.setText("View results");
+
+            resultsIntent = new Intent(this, ResultsActivity.class);
+            resultsIntent.putExtra(KEY_NAME_CONTROL_METHOD, controlMethod);
+            resultsIntent.putExtra(KEY_NAME_TILT_GAIN, tiltGain);
+            resultsIntent.putExtra(KEY_NAME_CLICKING_METHOD, clickingMethod);
+
+            resultsIntent.putExtra(KEY_NAME_TIME_TAKEN, ((double) timeTaken)/1000 + "s");
+            resultsIntent.putExtra(KEY_NAME_ERR_COUNT, totalClicks - correctClicks);
         }
     }
 
     private void goToResults() {
         aLog("Wikipedia", "Task finished: " + correctClicks + "/" + totalClicks);
+        startActivity(resultsIntent);
     }
 
     private boolean taskFinished() {
