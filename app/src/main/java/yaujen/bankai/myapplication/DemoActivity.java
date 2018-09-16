@@ -121,7 +121,6 @@ public class DemoActivity extends AppCompatActivity {
      * Changing recommended tilt gain for different control method
      */
     public class changeSelectedTiltGainBasedOnControlMethod implements AdapterView.OnItemSelectedListener {
-
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             String selected = parent.getItemAtPosition(pos).toString();
 
