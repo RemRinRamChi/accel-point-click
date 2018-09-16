@@ -11,6 +11,38 @@ accel-point-click is a Android library for accelerometer-based pointing and clic
 - **Volume Down Button** - Volume down button is overridden to register a click when pressed on.
 - **Back Tapping** - Tapping the back of the device triggers a click.
 
+## Using the library
+Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project
+### Downloading the library
+Download the ```accel-point-click.aar``` library file from sadaskdajsd
+
+### Importing the library into your project
+To import the accel-point-click library, you must move the .AAR file into the libs folder of your app module
+
+Next, you need to update your project's ```build.gradle``` file to allow the libs folder to be tracked
+```
+allprojects {
+    repositories {
+        ...
+        flatDir {
+            dirs 'libs'
+        }
+        ...
+    }
+}
+```
+
+Now, update your app module's ```build.gradle``` to import the library into the app module
+```
+dependencies {
+    ...
+    implementation(name:'accel-point-click', ext:'aar')
+    ...
+}
+```
+
+Now you can begin using the library!
+
 ## Usage
 The pointer exists in a separate full screen view and is added to the activity either through the activity's code or the layout file. 
 The following is an example of adding the pointer through code.
@@ -123,38 +155,6 @@ movableButtonView.setButtonSize(200);               // Give an int value of the 
 // Default opacity is 0.1f
 movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give a floating point value between 0-1.
 ```
-
-## Using the library
-Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project
-### Downloading the library
-Download the ```accel-point-click.aar``` library file from sadaskdajsd
-
-### Importing the library into your project
-To import the accel-point-click library, you must move the .AAR file into the libs folder of your app module
-
-Next, you need to update your project's ```build.gradle``` file to allow the libs folder to be tracked
-```
-allprojects {
-    repositories {
-        ...
-        flatDir {
-            dirs 'libs'
-        }
-        ...
-    }
-}
-```
-
-Now, update your app module's ```build.gradle``` to import the library into the app module
-```
-dependencies {
-    ...
-    implementation(name:'accel-point-click', ext:'aar')
-    ...
-}
-```
-
-Now you can begin using the library!
 
 ## Demo Application
 Description
