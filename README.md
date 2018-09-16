@@ -163,6 +163,7 @@ Installation guide
 
 ## Changes from Project Plan
 * Added position-control of accelerometer-based pointer
+* Added the ability to recalibrate the accelerometer so that the accelerometer can be used in any position
 * Demo application now demonstrates the library with 3 different scenarios (Wikipedia page, Number dial pad, Keyboard) 
     * Instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes.
     * Demo application is still used for testing, so the independent variables {Target Size, Clustered} will change to {Scenario}.
