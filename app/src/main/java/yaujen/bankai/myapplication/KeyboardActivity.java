@@ -86,8 +86,7 @@ public class KeyboardActivity extends AppCompatActivity {
                     hasStarted = true;
                     startTime = System.currentTimeMillis();
                     colorString();
-                    startButton.setText("");
-                    startButton.setEnabled(false);
+                    startButton.setVisibility(View.INVISIBLE);
                 } else if (textToWrite.length() == 0){
                     goToResults();
                 }
@@ -155,7 +154,7 @@ public class KeyboardActivity extends AppCompatActivity {
 
             if (textToWrite.length() == 0) {
                 nextLetter.setText("Done!");
-                startButton.setEnabled(true);
+                startButton.setVisibility(View.VISIBLE);
                 startButton.setText("View results");
                 long timeTaken = System.currentTimeMillis() - startTime;
 
@@ -168,7 +167,15 @@ public class KeyboardActivity extends AppCompatActivity {
                 resultsIntent.putExtra(KEY_NAME_ERR_COUNT, totalClicks - correctClicks);
             }
         }
+        aLog("errCount", totalClicks-correctClicks + "" );
 
+    }
+
+    public void onBackClicku(View v) {
+        if (hasStarted) {
+            aLog("errCount", totalClicks-correctClicks + "" );
+            totalClicks++;
+        }
     }
 
     private void goToResults() {
