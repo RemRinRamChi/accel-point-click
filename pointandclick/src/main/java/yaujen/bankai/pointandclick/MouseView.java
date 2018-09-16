@@ -395,6 +395,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         if (clickingMethod == ClickingMethod.BEZEL_SWIPE) {
             aLog("Bezel", "bezel");
             aLog("Bezel", event.getX() + " " + event.getY());
+            aLog("Bezel", MotionEvent.actionToString(event.getAction()));
 
             WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
             Point size = new Point();
@@ -402,7 +403,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             display.getSize(size);
             int width = size.x;
 
-            if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 if (event.getX() < BEZEL_THRESHHOLD) {
                     aLog("Bezel", "Touched left");
                     click();
