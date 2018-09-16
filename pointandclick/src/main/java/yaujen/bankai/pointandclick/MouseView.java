@@ -333,6 +333,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     @Override
     public void click() {
+        aLog("Click", "Clicking now");
         // Obtain MotionEvent object
         long downTime = SystemClock.uptimeMillis();
         long eventTime = SystemClock.uptimeMillis() + 100;
@@ -401,16 +402,21 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             display.getSize(size);
             int width = size.x;
 
-            if (event.getX() < BEZEL_THRESHHOLD) {
-                click();
-                aLog("Bezel", "Touched left");
-            } else if (event.getX() > width - BEZEL_THRESHHOLD) {
-                click();
-                aLog("Bezel", "Touched right");
-            } else {
-                aLog("Bezel", "Didn't touch bezel");
+            if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                if (event.getX() < BEZEL_THRESHHOLD) {
+                    aLog("Bezel", "Touched left");
+                    click();
+                    return true;
+                } else if (event.getX() > width - BEZEL_THRESHHOLD) {
+                    aLog("Bezel", "Touched right");
+                    click();
+                    return true;
+                }   else {
+                    aLog("Bezel", "Didn't touch bezel");
+                    return false;
+                }
             }
-            return true;
+
         }
         return false;
     }
