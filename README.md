@@ -61,10 +61,10 @@ mouseView.enablePositionControl(false);
 Configuring tilt gain settings, the settings which determines the step sizes of the pointer
 ``` java
 // For position-control
-mouseView.setPosTiltGain(TILT_GAIN);
+mouseView.setPosTiltGain(tiltGain);
 
 // For velocity-control
-mouseView.setVelTiltGain(TILT_GAIN);
+mouseView.setVelTiltGain(tiltGain);
 ```
 
 More customisation options
@@ -81,8 +81,8 @@ mouseView.calibratePitch();
 mouseView.setXReference(xRef);
 mouseView.setYReference(yRef);
 
-// Enables recalibration of the pointer using the volume down button
-mouseView.setRecalibrationEnabled(true);
+// Enables recalibration of the pointer using the volume up button
+mouseView.enableRecalibrationByVolumeUp(true);
 
 ```
 
