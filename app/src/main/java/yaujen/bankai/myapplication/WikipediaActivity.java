@@ -1,7 +1,6 @@
 package yaujen.bankai.myapplication;
 
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,30 +10,48 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import yaujen.bankai.pointandclick.ClickingMethod;
 import yaujen.bankai.pointandclick.MouseView;
 import yaujen.bankai.pointandclick.MovableFloatingActionButton;
 
+import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_CLICKING_METHOD;
+import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_CONTROL_METHOD;
+import static yaujen.bankai.myapplication.DemoActivity.KEY_NAME_TILT_GAIN;
+import static yaujen.bankai.myapplication.ResultsActivity.KEY_NAME_ERR_COUNT;
+import static yaujen.bankai.myapplication.ResultsActivity.KEY_NAME_TIME_TAKEN;
 import static yaujen.bankai.pointandclick.Utility.aLog;
 
 public class WikipediaActivity extends AppCompatActivity {
     private MouseView mouseView;
     private ConstraintLayout constraintLayout;
-    private TextView counter;
+    private TextView linksLeft;
     private TextView bodyText;
 
     private MovableFloatingActionButton movableButtonView;
+    private Button startButton;
 
+    private List<String> links;
+    private long startTime;
     private int correctClicks;
     private int totalClicks;
+    private boolean hasStarted;
+
+    private String controlMethod;
+    private String clickingMethod;
+    private int tiltGain;
+
+    private Intent resultsIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +63,7 @@ public class WikipediaActivity extends AppCompatActivity {
         // How to use mouse view
         mouseView = new MouseView(this);
         constraintLayout.addView(mouseView, -1, MouseView.getFullScreenConstraintLayoutParams());
-        mouseView.setClickingTargetView(constraintLayout);
+        mouseView.setClickingTargetView(findViewById(R.id.clickableLayout));
 
         // How to add fab clicking
         movableButtonView = new MovableFloatingActionButton(this);
@@ -56,27 +73,54 @@ public class WikipediaActivity extends AppCompatActivity {
 
         // Set mouse view configuration
         Bundle extras = getIntent().getExtras();
-        String controlMethod = extras.getString(DemoActivity.KEY_NAME_CONTROL_METHOD);
-        String clickingMethod = extras.getString(DemoActivity.KEY_NAME_CLICKING_METHOD);
-        String tiltGain = extras.getString(DemoActivity.KEY_NAME_TILT_GAIN);
+        controlMethod = extras.getString(KEY_NAME_CONTROL_METHOD);
+        clickingMethod = extras.getString(KEY_NAME_CLICKING_METHOD);
+        tiltGain = Integer.parseInt(extras.getString(KEY_NAME_TILT_GAIN));
+
 
         aLog("Wikipedia", controlMethod);
         aLog("Wikipedia", clickingMethod);
-        aLog("Wikipedia", tiltGain);
+        aLog("Wikipedia", tiltGain + "");
 
+        mouseView.enablePositionControl(controlMethod.equals(DemoActivity.CONTROL_METHODS[0]));
         mouseView.setClickingMethod(ClickingMethod.valueOf(clickingMethod));
+        mouseView.setPosTiltGain(tiltGain);
+        mouseView.setVelTiltGain(tiltGain);
 
-        counter = findViewById(R.id.counter);
+        linksLeft = findViewById(R.id.links);
 
+        // Keeps track of clicks made by the user
         bodyText = findViewById(R.id.bodyText);
         bodyText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                totalClicks++;
-                updateText();
+                if (hasStarted && !taskFinished()) {
+                    totalClicks++;
+                    aLog("Wikipedia", "Clicked");
+                }
             }
         });
 
+        createWikipediaText();
+
+        hasStarted = false;
+        startButton = findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    startTime = System.currentTimeMillis();
+                    updateText();
+                } else if (taskFinished()){
+                    goToResults();
+                }
+            }
+        });
+    }
+
+    private void createWikipediaText() {
+        // Converts sample wikipedia text file into a string
         InputStream is = getResources().openRawResource(R.raw.wikipedia_text);
         String text = "hello";
         try {
@@ -92,14 +136,27 @@ public class WikipediaActivity extends AppCompatActivity {
         Spanned spanned = Html.fromHtml(text);
         final Spannable spannable = new SpannableStringBuilder(spanned);
 
+        links = new ArrayList<>();
         URLSpan[] urlSpans = spanned.getSpans(0, spanned.length(), URLSpan.class);
 
+        // Adds a click listener to every url
         for (final URLSpan urlSpan: urlSpans) {
+            final String url = urlSpan.getURL();
+
+            // Only add links we want to the task
+            if (!url.equals("-1")) {
+                links.add(url);
+            }
+
+
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(View view) {
-                    correctClicks++;
-                    updateText();
+                    if (hasStarted && links.contains(url)) {
+                        links.remove(url);
+                        correctClicks++;
+                        updateText();
+                    }
                     aLog("Wikipedia", "Clicked " + urlSpan.getURL());
                 }
             };
@@ -115,10 +172,42 @@ public class WikipediaActivity extends AppCompatActivity {
         bodyText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-
-
     private void updateText() {
-        counter.setText((Math.round((double) correctClicks / totalClicks * 100)) + "% (" + correctClicks + "/" + totalClicks + ")");
+        // Update list of links to click
+        if (!taskFinished()) {
+            Iterator<String> iterator = links.iterator();
+            String linksRemaining = "<b>Click these links:</b><br>";
+            while (iterator.hasNext()) {
+                linksRemaining += iterator.next() + "<br>";
+            }
+            linksLeft.setText(Html.fromHtml(linksRemaining));
+        }
+
+        // Handle when task is finished
+        else {
+            totalClicks++; // increment because last link clicked doesn't increment total clicks
+            long timeTaken = System.currentTimeMillis() - startTime;
+
+            linksLeft.setText((Html.fromHtml("<b>Done!</b>")));
+            startButton.setText("View results");
+
+            resultsIntent = new Intent(this, ResultsActivity.class);
+            resultsIntent.putExtra(KEY_NAME_CONTROL_METHOD, controlMethod);
+            resultsIntent.putExtra(KEY_NAME_TILT_GAIN, tiltGain);
+            resultsIntent.putExtra(KEY_NAME_CLICKING_METHOD, clickingMethod);
+
+            resultsIntent.putExtra(KEY_NAME_TIME_TAKEN, ((double) timeTaken)/1000 + "s");
+            resultsIntent.putExtra(KEY_NAME_ERR_COUNT, totalClicks - correctClicks);
+        }
+    }
+
+    private void goToResults() {
+        aLog("Wikipedia", "Task finished: " + correctClicks + "/" + totalClicks);
+        startActivity(resultsIntent);
+    }
+
+    private boolean taskFinished() {
+        return links.size() == 0;
     }
 
     //pausing the mouse view when activity is paused
