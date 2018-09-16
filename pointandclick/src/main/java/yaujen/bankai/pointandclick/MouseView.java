@@ -46,6 +46,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private double initialY;
     private double currentPitch;
     private double refPitch;
+    private double currentRoll;
+    private double refRoll;
 
     volatile boolean mousing;
     private Thread mouseThread = null;
@@ -100,6 +102,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         initialY = (context.getResources().getDisplayMetrics().heightPixels/2);
         mouse = new Mouse(context, initialX, initialY);
         refPitch =0;
+        refRoll =0;
         positionControl = false;
 
         backTapService = new BackTapService((Activity)getContext(), this);
@@ -158,7 +161,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     private void update() {
-        double roll =  sensorFusion.getRoll(); // rotation along x-axis
+        currentRoll = sensorFusion.getRoll();
+        double roll =  currentRoll - refRoll; // rotation along x-axis
         currentPitch = sensorFusion.getPitch();
         double pitch =  currentPitch - refPitch; // rotation along y-axis
 
@@ -267,30 +271,6 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
-     * Gets reference Value used for calibration of the initial pitch value
-     * @return Reference Value used for calibration of the initial pitch value
-     */
-    public double getRefPitch() {
-        return refPitch;
-    }
-
-    /**
-     * Sets the reference pitch added to the rest pitch of 0, when the device is laid flat
-     *
-     * @param refPitch Reference Value used for calibration of the initial pitch value
-     */
-    public void setRefPitch(double refPitch) {
-        this.refPitch = refPitch;
-    }
-
-    /**
-     * @return Actual pitch value detected by sensors
-     */
-    public double getCurrentPitch() {
-        return currentPitch;
-    }
-
-    /**
      * Toggles between position and velocity control of pointer,
      * velocity control is then default
      */
@@ -377,8 +357,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 click();
                 return true;
             } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
-                calibratePitch();
-                Toast.makeText(getContext(),"Calibrated pitch to be "+ getRefPitch(),Toast.LENGTH_SHORT).show();
+                calibratePointer();
+                Toast.makeText(getContext(),"Calibrated pointer, pitch: "+ getRefPitch() + ", roll: "+getRefRoll(),Toast.LENGTH_SHORT).show();
                 return true;
             }
         }
@@ -458,12 +438,61 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         this.initialY = initialY;
     }
 
+    /**
+     * Gets reference Value used for calibration of the initial pitch value
+     * @return Reference Value used for calibration of the initial pitch value
+     */
+    public double getRefPitch() {
+        return refPitch;
+    }
 
     /**
-     * Calibrate the accelerometer based pointer to use the current pitch as the reference point, resting position
+     * Sets the reference pitch added to the rest pitch of 0, when the device is laid flat
+     *
+     * @param refPitch Reference Value used for calibration of the initial pitch value
      */
-    public void calibratePitch(){
+    public void setRefPitch(double refPitch) {
+        this.refPitch = refPitch;
+    }
+
+    /**
+     * @return Actual pitch value detected by sensors
+     */
+    public double getCurrentPitch() {
+        return currentPitch;
+    }
+
+    /**
+     * Gets reference Value used for calibration of the initial roll value
+     * @return Reference Value used for calibration of the initial roll value
+     */
+    public double getRefRoll() {
+        return refRoll;
+    }
+
+    /**
+     * Sets the reference roll added to the rest roll of 0, when the device is laid flat
+     *
+     * @param refRoll Reference Value used for calibration of the initial roll value
+     */
+    public void setRefRoll(double refRoll) {
+        this.refRoll = refRoll;
+    }
+
+    /**
+     * @return Actual roll value detected by sensors
+     */
+    public double getCurrentrefRoll() {
+        return currentRoll;
+    }
+
+
+    /**
+     * Calibrate the accelerometer based pointer to consider the current pitch and roll as the reference point, resting position
+     */
+    public void calibratePointer(){
         setRefPitch(currentPitch);
+        setRefRoll(currentRoll);
     }
 
     /**
