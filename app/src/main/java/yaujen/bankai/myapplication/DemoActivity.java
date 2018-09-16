@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -30,6 +32,7 @@ public class DemoActivity extends AppCompatActivity {
     public String[] CLICKING_METHODS = new String[]{ClickingMethod.VOLUME_DOWN.name(),ClickingMethod.FLOATING_BUTTON.name(),ClickingMethod.BACK_TAP.name(),ClickingMethod.BEZEL_SWIPE.name() };
     public static final String[] TASKS = new String[]{Tasks.Keyboard.name(), Tasks.Numpad.name(), Tasks.Wikipedia.name()};
 
+    // KEY 
     public static final String KEY_NAME_CONTROL_METHOD = "CONTROL_METHOD";
     public static final String KEY_NAME_TILT_GAIN = "TILT_GAIN";
     public static final String KEY_NAME_CLICKING_METHOD = "CLICKING_METHOD";
@@ -59,6 +62,8 @@ public class DemoActivity extends AppCompatActivity {
         dropdownTiltGain.setAdapter(adapterTiltGain);
         dropdownClickingMethod.setAdapter(adapterClickingMethod);
         dropdownTask.setAdapter(adapterTask);
+
+        dropdownControlMethod.setOnItemSelectedListener(new changeSelectedTiltGainBasedOnControlMethod());
 
         Button startButton = findViewById(R.id.button_start);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -103,8 +108,36 @@ public class DemoActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Toast Message being shown
+     * @param message
+     */
     public void outputMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Changing recommended tilt gain for different control method
+     */
+    public class changeSelectedTiltGainBasedOnControlMethod implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            String selected = parent.getItemAtPosition(pos).toString();
+
+            if(selected != null && !selected.isEmpty()){
+                Spinner dropdownTiltGain = findViewById(R.id.tilt_gain);
+
+                if(selected.equals("Position")){
+                    dropdownTiltGain.setSelection(5);           // Tilt = 35
+                } else if (selected.equals("Velocity")){
+                    dropdownTiltGain.setSelection(18);          // Velocity = 100
+                }
+            }
+        }
+
+        public void onNothingSelected(AdapterView parent) {
+            // Do nothing.
+        }
+    }
 }
