@@ -81,6 +81,9 @@ mouseView.calibratePitch();
 mouseView.setXReference(xRef);
 mouseView.setYReference(yRef);
 
+// Enables recalibration of the pointer using the volume down button
+mouseView.setRecalibrationEnabled(true);
+
 ```
 
 #### Customising pointer clicking method
