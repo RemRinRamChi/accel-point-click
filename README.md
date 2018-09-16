@@ -124,10 +124,7 @@ movableButtonView.setButtonSize(200);               // Give an int value of the 
 movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give a floating point value between 0-1.
 ```
 
-## Demo Application
-Installation guide
-
-## Download
+## Using the library
 Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project
 ### Downloading the library
 Download the ```accel-point-click.aar``` library file from sadaskdajsd
@@ -158,6 +155,11 @@ dependencies {
 ```
 
 Now you can begin using the library!
+
+## Demo Application
+Description
+
+Installation guide
 
 ## Changes from Project Plan
 * Added position-control of accelerometer-based pointer
