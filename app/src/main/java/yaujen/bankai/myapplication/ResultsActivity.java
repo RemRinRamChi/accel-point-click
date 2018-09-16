@@ -24,9 +24,9 @@ public class ResultsActivity extends AppCompatActivity {
         String timeTaken = extras.getString(ResultsActivity.KEY_NAME_TIME_TAKEN);
         int errCount = extras.getInt(ResultsActivity.KEY_NAME_ERR_COUNT);
 
-        ((TextView)findViewById(R.id.controlModeView)).setText(controlMethod);
-        ((TextView)findViewById(R.id.clickingMethodView)).setText(clickingMethod);
-        ((TextView)findViewById(R.id.tiltGainView)).setText("Tilt gain of "+tiltGain);
+        ((TextView)findViewById(R.id.controlModeView)).setText("Control Mode: "+controlMethod);
+        ((TextView)findViewById(R.id.clickingMethodView)).setText("Clicking Method: "+clickingMethod);
+        ((TextView)findViewById(R.id.tiltGainView)).setText("Tilt Gain: "+tiltGain);
         ((TextView)findViewById(R.id.timeView)).setText("Time Taken: "+timeTaken);
         ((TextView)findViewById(R.id.errView)).setText("Error Count: "+errCount);
     }
