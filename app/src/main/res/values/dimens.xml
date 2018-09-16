@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="numkey_size">70dp</dimen>
-    <dimen name="numkey_side_margins">32dp</dimen>
-    <dimen name="numkey_vertical_margins">8dp</dimen>
+    <dimen name="numkey_side_margins">28dp</dimen>
+    <dimen name="numkey_vertical_margins">18dp</dimen>
+    <dimen name="numkey_text">24sp</dimen>
 
+    <dimen name="results_text">28sp</dimen>
+    <dimen name="results_additional_text">20sp</dimen>
+
+
+
+    <dimen name="input_label_vertical_spacing">8dp</dimen>
+    <dimen name="input_label_horizontal_spacing">4dp</dimen>
 </resources>

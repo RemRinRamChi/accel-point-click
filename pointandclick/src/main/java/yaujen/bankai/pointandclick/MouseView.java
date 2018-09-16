@@ -13,11 +13,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.Display;
@@ -63,7 +60,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private SensorManager sensorManager = null;
 
     private ClickingMethod clickingMethod;
-    private View view;
+    private View targetView;
     private BackTapService backTapService;
 
     // Clicking Floating Button
@@ -278,7 +275,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
-     * Sets the reference pitch added to the rest pitch of 0, when the phone is laid flat
+     * Sets the reference pitch added to the rest pitch of 0, when the device is laid flat
      *
      * @param refPitch Reference Value used for calibration of the initial pitch value
      */
@@ -297,8 +294,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
      * Toggles between position and velocity control of pointer,
      * velocity control is then default
      */
-    public void toggleControl(){
-        positionControl = !positionControl;
+    public void enablePositionControl(boolean toEnable){
+        positionControl = toEnable;
     }
 
     public ClickingMethod getClickingMethod() {
@@ -326,13 +323,17 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         }
     }
 
-    public void setClickingTargetView(View view) {
-        this.view = view;
+    /**
+     * Sets the whole area for clicking, this should be top most parent view of the activity
+     * @param topMostView
+     */
+    public void setClickingTargetView(View topMostView) {
+        this.targetView = topMostView;
     }
 
     @Override
     public void click() {
-        aLog("dad","CLICK");
+        aLog("Click", "Clicking now");
         // Obtain MotionEvent object
         long downTime = SystemClock.uptimeMillis();
         long eventTime = SystemClock.uptimeMillis() + 100;
@@ -349,9 +350,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 y,
                 metaState
         );
+        motionEvent.setSource(420);
 
         // Dispatch touch event to view
-        view.dispatchTouchEvent(motionEvent);
+        targetView.dispatchTouchEvent(motionEvent);
 
         metaState = 0;
         motionEvent = MotionEvent.obtain(
@@ -362,14 +364,14 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
                 y,
                 metaState
         );
+        motionEvent.setSource(420);
 
         // Dispatch touch event to view
-        view.dispatchTouchEvent(motionEvent);
+        targetView.dispatchTouchEvent(motionEvent);
     }
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        aLog("MouseView", "KEY EVENT DETECTED");
         if (clickingMethod == ClickingMethod.VOLUME_DOWN && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
                 click();
@@ -386,9 +388,14 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (event.getSource() == 420) {
+            aLog("Bezel", "own source");
+            return super.onTouchEvent(event);
+        }
         if (clickingMethod == ClickingMethod.BEZEL_SWIPE) {
-
+            aLog("Bezel", "bezel");
             aLog("Bezel", event.getX() + " " + event.getY());
+            aLog("Bezel", MotionEvent.actionToString(event.getAction()));
 
             WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
             Point size = new Point();
@@ -396,18 +403,23 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             display.getSize(size);
             int width = size.x;
 
-            if (event.getX() < BEZEL_THRESHHOLD) {
-                click();
-                aLog("Bezel", "Touched left");
-            } else if (event.getX() > width - BEZEL_THRESHHOLD) {
-                click();
-                aLog("Bezel", "Touched right");
-            } else {
-                aLog("Bezel", "Didn't touch bezel");
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getX() < BEZEL_THRESHHOLD) {
+                    aLog("Bezel", "Touched left");
+                    click();
+                    return true;
+                } else if (event.getX() > width - BEZEL_THRESHHOLD) {
+                    aLog("Bezel", "Touched right");
+                    click();
+                    return true;
+                }   else {
+                    aLog("Bezel", "Didn't touch bezel");
+                    return false;
+                }
             }
 
         }
-        return super.onTouchEvent(event);
+        return false;
     }
 
     /**
