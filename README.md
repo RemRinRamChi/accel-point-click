@@ -161,6 +161,5 @@ Now you can begin using the library!
 
 ## Changes from Project Plan
 - Added position-control of accelerometer-based pointer
-- Demo application which is used for testing now demonstrates the library with 3 different scenarios (Wikipedia page, Number dial pad, Keyboard) 
-- instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes.
+- Demo application which is used for testing now demonstrates the library with 3 different scenarios (Wikipedia page, Number dial pad, Keyboard) instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes.
 
