@@ -65,6 +65,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     private View targetView;
     private BackTapService backTapService;
 
+    private boolean recalibrationEnabled;
+
     // Clicking Floating Button
     private MovableFloatingActionButton buttonClicker;
 
@@ -104,6 +106,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
         refPitch =0;
         refRoll =0;
         positionControl = false;
+        recalibrationEnabled = false;
 
         backTapService = new BackTapService((Activity)getContext(), this);
         clickingMethod = ClickingMethod.VOLUME_DOWN;
@@ -304,6 +307,14 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
+    * Enables or disables the use of the volume down button to recalibrate
+    * @param enabled
+    */
+    public void setRecalibrationEnabled(boolean enabled) {
+        this.recalibrationEnabled = enabled;
+    }
+
+    /**
      * Sets the whole area for clicking, this should be top most parent view of the activity
      * @param topMostView
      */
@@ -356,10 +367,14 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
             if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
                 click();
                 return true;
-            } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
-                calibratePointer();
-                Toast.makeText(getContext(),"Calibrated pointer, pitch: "+ getRefPitch() + ", roll: "+getRefRoll(),Toast.LENGTH_SHORT).show();
-                return true;
+            }
+        }
+
+        if (recalibrationEnabled) {
+            if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    calibratePointer();
+                    Toast.makeText(getContext(),"Calibrated pointer, pitch: "+ getRefPitch() + ", roll: "+getRefRoll(),Toast.LENGTH_SHORT).show();
+                    return true;
             }
         }
 
