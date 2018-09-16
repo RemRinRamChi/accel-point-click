@@ -107,9 +107,21 @@ mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
 ```
 Back Tapping requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
 
-Customising the floating button
+#### Customising the movable floating button
+There are 3 customization options for the movable floating button.
+
 ```java
-Alex takeover, write down any limitations after
+// Set Floating Button Color
+// Default color is cyan
+movableButtonView.setButtonColor(Color.CYAN);       // Give an int value of a color that you want
+
+// Set Floating Button Size
+// Default size is 200
+movableButtonView.setButtonSize(200);               // Give an int value of the preffered button size in pixels
+
+// Set Floating Button Opacity 
+// Default opacity is 0.1f
+movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give a floating point value between 0-1.
 ```
 
 ## Demo Application
