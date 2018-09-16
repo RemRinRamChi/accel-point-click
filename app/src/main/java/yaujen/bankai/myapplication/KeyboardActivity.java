@@ -51,7 +51,7 @@ public class KeyboardActivity extends AppCompatActivity {
 
         // How to use mouse view
         mouseView = new MouseView(this);
-        mouseView.setRecalibrationEnabled(true);
+        mouseView.enableRecalibrationByVolumeUp(true);
         constraintLayout.addView(mouseView, -1, MouseView.getFullScreenConstraintLayoutParams());
         mouseView.setClickingTargetView(constraintLayout);
 

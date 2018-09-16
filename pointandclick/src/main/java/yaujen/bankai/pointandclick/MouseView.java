@@ -307,10 +307,10 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
-    * Enables or disables the use of the volume down button to recalibrate
+    * Enables or disables the use of the volume up button to recalibrate
     * @param enabled
     */
-    public void setRecalibrationEnabled(boolean enabled) {
+    public void enableRecalibrationByVolumeUp(boolean enabled) {
         this.recalibrationEnabled = enabled;
     }
 
