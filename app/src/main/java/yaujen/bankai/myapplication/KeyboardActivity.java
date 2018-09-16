@@ -147,7 +147,7 @@ public class KeyboardActivity extends AppCompatActivity {
             }
 
             if (nextChar == ' ') {
-                nextChar = '_';
+                nextChar = '␣';
             }
 
             nextLetter.setText("Next Letter: " + nextChar);
