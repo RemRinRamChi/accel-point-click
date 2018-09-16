@@ -12,16 +12,22 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * MovableFloatingActionButton extends a FloatingActionButton
+ * It opens up 3 customization options for the FloatingActionButton: Color, Size and Opacity
+ *
+ * It setups listeners to make the button movable
+ *
+ */
 public class MovableFloatingActionButton extends FloatingActionButton implements View.OnTouchListener {
-    // Reference: Author=ban-geoengineering Source=https://stackoverflow.com/questions/46370836/android-movable-draggable-floating-action-button-fab
     private final static double CLICK_DRAG_TOLERANCE = 10; // Often, there will be a slight, unintentional, drag when the user taps the FAB, so we need to account for this.
 
     private float downRawX, downRawY;
     private float dX, dY;
 
-    private int buttonSize = 200;        // Default button Size
-    private int buttonColor = Color.CYAN; // Default button Color
-    private float buttonOpacity = 0.1f;
+    private int buttonSize = 200;           // Default button Size
+    private int buttonColor = Color.CYAN;   // Default button Color
+    private float buttonOpacity = 0.1f;     // Default Opacity
 
     public MovableFloatingActionButton(Context context) {
         super(context);
@@ -36,6 +42,9 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         init();
     }
 
+    /**
+     * Setup default customization of the button and listeners for dragging
+     */
     private void init() {
         setOnTouchListener(this);
         this.setButtonOpacity(buttonOpacity);
@@ -53,17 +62,10 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         this.setCustomSize(buttonSize);
     }
 
-    public void setButtonOpacity(float opacity){
+    public void setButtonOpacity(float opacity) {
         buttonOpacity = opacity;
         this.setAlpha(buttonOpacity);
     }
-
-//    public void enableDisableViewBehaviour(CoordinatorLayout.Behavior<View> behavior, boolean enable){
-//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) this.getLayoutParams();
-//        params.setBehavior(behavior);
-//        this.requestLayout();
-//        this.setVisibility((enable ? View.VISIBLE : View.GONE));
-//    }
 
     public void setVisibilityButton(boolean visible){
         if (visible) {
@@ -73,6 +75,14 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         }
 
     }
+
+    /**
+     * This onTouch methods listens and reads motion events to do dragging
+     * Reference: Author=ban-geoengineering Source=https://stackoverflow.com/questions/46370836/android-movable-draggable-floating-action-button-fab
+     * @param view
+     * @param motionEvent
+     * @return
+     */
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent){
