@@ -6,5 +6,5 @@ which Google bought in 2005, Android was unveiled in 2007, with the <a href="fir
 The operating system has since gone through multiple major releases, with the current version being <a href="9.0 &quot;Pie&quot;">9.0 &quot;Pie&quot;</a>, 
 released in August 2018. The core Android source code is known as Android Open Source Project (AOSP), and is primarily licensed under
  the <a href="Apache License">Apache License</a>.  Android is also associated with a suite of <a href="-1">proprietary software</a> developed by Google, including core apps for services 
- such as <a href="Gmail">Gmail</a> and <a href="-1">Google Search</a>, as well as the <a href="-1">application store</a> and <a href="-1">digital distribution</a> platform Google Play, and associated <a href="development platform">development 
- platform</a>.
+ such as <a href="Gmail">Gmail</a> and <a href="-1">Google Search</a>, as well as the <a href="-1">application store</a> and <a href="digital distribution">digital distribution</a> platform Google Play, and associated development
+ platform.
