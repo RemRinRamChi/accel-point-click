@@ -11,7 +11,7 @@ accel-point-click is a Android library for accelerometer-based pointing and clic
 - **Volume Down Button** - Volume down button is overridden to register a click when pressed on.
 - **Back Tapping** - Tapping the back of the device triggers a click.
 
-## Using the library
+## Using the library in your project
 Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project
 ### Downloading the library
 Download the ```accel-point-click.aar``` library file from sadaskdajsd
