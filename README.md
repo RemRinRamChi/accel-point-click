@@ -128,7 +128,7 @@ movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give 
 Installation guide
 
 ## Download
-Before you can use the point-and-click functionalities in your app, you must first download and import the library into your project
+Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project
 ### Downloading the library
 Download the AAR library file from sadaskdajsd
 
@@ -158,3 +158,9 @@ dependencies {
 ```
 
 Now you can begin using the library!
+
+## Changes from Project Plan
+- Added position-control of accelerometer-based pointer
+- Demo application which is used for testing now demonstrates the library with 3 different scenarios (Wikipedia page, Number dial pad, Keyboard) 
+- instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes.
+
