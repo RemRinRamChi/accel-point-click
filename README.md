@@ -128,4 +128,33 @@ movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give 
 Installation guide
 
 ## Download
-Import the AAR file // Andy yoyo
+Before you can use the point-and-click functionalities in your app, you must first download and import the library into your project
+### Downloading the library
+Download the AAR library file from sadaskdajsd
+
+### Importing the library into your project
+To import the point-and-click library, you must move the .AAR file into the libs folder of your app module
+
+Next, you need to update your project's ```build.gradle``` file to allow the libs folder to be tracked
+```
+allprojects {
+    repositories {
+        ...
+        flatDir {
+            dirs 'libs'
+        }
+        ...
+    }
+}
+```
+
+Now, update your app module's ```build.gradle``` to import the library into the app module
+```
+dependencies {
+    ...
+    implementation(name:'pointandclick-release', ext:'aar')
+    ...
+}
+```
+
+Now you can begin using the library!
