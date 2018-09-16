@@ -61,14 +61,14 @@ public class KeyboardActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    //pausing the game when activity is paused
+    //pausing the mouse view when activity is paused
     @Override
     protected void onPause() {
         super.onPause();
         mouseView.pause();
     }
 
-    //running the game when activity is resumed
+    //running the mouse view when activity is resumed
     @Override
     protected void onResume() {
         super.onResume();

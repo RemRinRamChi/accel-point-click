@@ -275,7 +275,7 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     }
 
     /**
-     * Sets the reference pitch added to the rest pitch of 0, when the phone is laid flat
+     * Sets the reference pitch added to the rest pitch of 0, when the device is laid flat
      *
      * @param refPitch Reference Value used for calibration of the initial pitch value
      */

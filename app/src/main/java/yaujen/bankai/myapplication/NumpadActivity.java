@@ -70,14 +70,14 @@ public class NumpadActivity extends AppCompatActivity {
     }
 
 
-    //pausing the game when activity is paused
+    //pausing the mouse view when activity is paused
     @Override
     protected void onPause() {
         super.onPause();
         mouseView.pause();
     }
 
-    //running the game when activity is resumed
+    //running the mouse view when activity is resumed
     @Override
     protected void onResume() {
         super.onResume();
@@ -88,6 +88,7 @@ public class NumpadActivity extends AppCompatActivity {
         if(start){
             start = false;
             numberField.setText(" • • • • • • • • • •");
+            findViewById(R.id.goBtn).setVisibility(View.INVISIBLE);
             startTime = System.currentTimeMillis();
         } else {
             incrementErrorCount();
@@ -125,6 +126,7 @@ public class NumpadActivity extends AppCompatActivity {
                     } else {
                         numberField.setText(numberField.getText().toString().replaceFirst(" •",clickuChar+""));
                         finish = true;
+                        findViewById(R.id.endBtn).setVisibility(View.VISIBLE);
                     }
                 } else {
                     incrementErrorCount();
