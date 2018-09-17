@@ -138,6 +138,7 @@ mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
 
 ```
 Back Tapping requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
+You will need to click ```Start BTAP Service```, then give it the appropriate permissions by opening the settings.
 
 #### Customising the movable floating button
 There are 3 customization options for the movable floating button.
