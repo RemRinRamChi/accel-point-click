@@ -12,9 +12,9 @@ accel-point-click is a Android library for accelerometer-based pointing and clic
 - **Back Tapping** - Tapping the back of the device triggers a click.
 
 ## Using the library in your project
-Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project
+Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project. The minimum API level requirement for the library is 21.
 ### Downloading the library
-Download the ```accel-point-click.aar``` library file from sadaskdajsd
+Download the ```accel-point-click.aar``` library file from the releases folder.
 
 ### Importing the library into your project
 To import the accel-point-click library, you must move the .AAR file into the libs folder of your app module
