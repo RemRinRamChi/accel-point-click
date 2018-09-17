@@ -11,6 +11,38 @@ accel-point-click is a Android library for accelerometer-based pointing and clic
 - **Volume Down Button** - Volume down button is overridden to register a click when pressed on.
 - **Back Tapping** - Tapping the back of the device triggers a click.
 
+## Using the library in your project
+Before you can use the accel-point-click functionalities in your app, you must first download and import the library into your project. The minimum API level requirement for the library is 21.
+### Downloading the library
+Download the ```accel-point-click.aar``` library file from the releases folder.
+
+### Importing the library into your project
+To import the accel-point-click library, you must move the .AAR file into the libs folder of your app module. Create the libs folder if it does not exist.
+
+Next, you need to update your project's ```build.gradle``` file to allow the libs folder to be tracked
+```
+allprojects {
+    repositories {
+        ...
+        flatDir {
+            dirs 'libs'
+        }
+        ...
+    }
+}
+```
+
+Now, update your app module's ```build.gradle``` to import the library into the app module
+```
+dependencies {
+    ...
+    implementation(name:'accel-point-click', ext:'aar')
+    ...
+}
+```
+
+Now you can begin using the library!
+
 ## Usage
 The pointer exists in a separate full screen view and is added to the activity either through the activity's code or the layout file. 
 The following is an example of adding the pointer through code.
@@ -106,6 +138,7 @@ mouseView.setClickingMethod(ClickingMethod.BACK_TAP);
 
 ```
 Back Tapping requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
+You will need to click ```Start BTAP Service```, then give it the appropriate permissions by opening the settings.
 
 #### Customising the movable floating button
 There are 3 customization options for the movable floating button.
@@ -125,36 +158,18 @@ movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give 
 ```
 
 ## Demo Application
-Installation guide
+The Accel World demo application is used to test the functionalities provided by the accel-point-click libray. The minimum API level requirement for the application is 21.
+### Installation guide
+Download the ```accel-world.apk``` file from the releases folder. Run the apk on your device to install the application.
 
-## Download
-Before you can use the point-and-click functionalities in your app, you must first download and import the library into your project
-### Downloading the library
-Download the AAR library file from sadaskdajsd
+### Note
+Back Tapping to click requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
+You will need to click ```Start BTAP Service```, then give it the appropriate permissions by opening the settings.
 
-### Importing the library into your project
-To import the point-and-click library, you must move the .AAR file into the libs folder of your app module
 
-Next, you need to update your project's ```build.gradle``` file to allow the libs folder to be tracked
-```
-allprojects {
-    repositories {
-        ...
-        flatDir {
-            dirs 'libs'
-        }
-        ...
-    }
-}
-```
-
-Now, update your app module's ```build.gradle``` to import the library into the app module
-```
-dependencies {
-    ...
-    implementation(name:'pointandclick-release', ext:'aar')
-    ...
-}
-```
-
-Now you can begin using the library!
+## Changes from Project Plan
+* Added position-control of accelerometer-based pointer
+* Added the ability to recalibrate the accelerometer so that the accelerometer can be used in any position comfortably
+* Demo application now demonstrates the library with 3 different scenarios (Wikipedia page, Number dial pad, Keyboard) 
+    * Instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes
+    * Demo application is still used for testing, so the independent variables {Target Size, Clustered} will change to {Scenario}
