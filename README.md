@@ -163,8 +163,9 @@ The Accel World demo application is used to test the functionalities provided by
 Download the ```accel-world.apk``` file from the releases folder. Run the apk on your device to install the application.
 
 ### Note
-Back Tapping to click requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
+* Back Tapping to click requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
 You will need to click ```Start BTAP Service```, then give it the appropriate permissions by opening the settings.
+* Volume up button will recalibrate the pointer in the different scenarios of the application.
 
 
 ## Changes from Project Plan
