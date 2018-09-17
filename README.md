@@ -17,7 +17,7 @@ Before you can use the accel-point-click functionalities in your app, you must f
 Download the ```accel-point-click.aar``` library file from the releases folder.
 
 ### Importing the library into your project
-To import the accel-point-click library, you must move the .AAR file into the libs folder of your app module
+To import the accel-point-click library, you must move the .AAR file into the libs folder of your app module. Create the libs folder if it does not exist.
 
 Next, you need to update your project's ```build.gradle``` file to allow the libs folder to be tracked
 ```
