@@ -158,13 +158,18 @@ movableButtonView.setButtonOpacity(0.1f);           // To set the opacity, give 
 ```
 
 ## Demo Application
-Description
+The Accel World demo application is used to test the functionalities provided by the accel-point-click libray. The minimum API level requirement for the application is 21.
+### Installation guide
+Download the ```accel-world.apk``` file from the releases folder. Run the apk on your device to install the application.
 
-Installation guide
+### Note
+Back Tapping to click requires the installation of a [separate application](https://play.google.com/store/apps/details?id=com.prhlt.aemus.BoDTapService) to work. The application will need to be launch and will start a service that will listen to back taps.
+You will need to click ```Start BTAP Service```, then give it the appropriate permissions by opening the settings.
+
 
 ## Changes from Project Plan
 * Added position-control of accelerometer-based pointer
-* Added the ability to recalibrate the accelerometer so that the accelerometer can be used in any position
+* Added the ability to recalibrate the accelerometer so that the accelerometer can be used in any position comfortably
 * Demo application now demonstrates the library with 3 different scenarios (Wikipedia page, Number dial pad, Keyboard) 
-    * Instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes.
-    * Demo application is still used for testing, so the independent variables {Target Size, Clustered} will change to {Scenario}.
+    * Instead of a screen with circular button targets of different clusterings (distance away from another button) and sizes
+    * Demo application is still used for testing, so the independent variables {Target Size, Clustered} will change to {Scenario}
