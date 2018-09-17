@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -63,7 +64,9 @@ public class DemoActivity extends AppCompatActivity {
         dropdownClickingMethod.setAdapter(adapterClickingMethod);
         dropdownTask.setAdapter(adapterTask);
 
-        dropdownControlMethod.setOnItemSelectedListener(new changeSelectedTiltGainBasedOnControlMethod());
+        dropdownControlMethod.setOnItemSelectedListener(new ChangeSelectedTiltGainBasedOnControlMethod());
+        dropdownClickingMethod.setOnItemSelectedListener(new BacktapWarningMessage());
+
 
         Button startButton = findViewById(R.id.button_start);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -120,17 +123,40 @@ public class DemoActivity extends AppCompatActivity {
     /**
      * Changing recommended tilt gain for different control method
      */
-    public class changeSelectedTiltGainBasedOnControlMethod implements AdapterView.OnItemSelectedListener {
+    public class ChangeSelectedTiltGainBasedOnControlMethod implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             String selected = parent.getItemAtPosition(pos).toString();
 
             if(selected != null && !selected.isEmpty()){
                 Spinner dropdownTiltGain = findViewById(R.id.tilt_gain);
+                TextView backtapReminder = findViewById(R.id.warning_backtap);
 
                 if(selected.equals("Position")){
                     dropdownTiltGain.setSelection(5);           // Tilt = 35
                 } else if (selected.equals("Velocity")){
                     dropdownTiltGain.setSelection(18);          // Velocity = 100
+                }
+            }
+        }
+
+        public void onNothingSelected(AdapterView parent) {
+            // Do nothing.
+        }
+    }
+
+    /**
+     * Backtap warning for user
+     */
+    public class BacktapWarningMessage implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            String selected = parent.getItemAtPosition(pos).toString();
+
+            TextView backtapReminder = findViewById(R.id.warning_backtap);
+            backtapReminder.setVisibility(View.INVISIBLE);
+
+            if(selected != null && !selected.isEmpty()){
+                if(selected.equals(ClickingMethod.BACK_TAP.name())){
+                    backtapReminder.setVisibility(View.VISIBLE);
                 }
             }
         }

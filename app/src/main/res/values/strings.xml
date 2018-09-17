@@ -7,5 +7,5 @@
     <string name="tilt_gain_name">Tilt Gain</string>
     <string name="clicking_method_name">Clicking Method</string>
     <string name="task_name">Task</string>
-
+    <string name="backtap_hint"><i><b>*PLEASE ENSURE B-Tap Service IS RUNNING*</b></i></string>
 </resources>
