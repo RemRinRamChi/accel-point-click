@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DemoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_demo"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -19,14 +20,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WikipediaActivity" />
-        <activity android:name=".NumpadActivity">
+        <activity android:name=".WikipediaActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".NumpadActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".KeyboardActivity" />
-        <activity android:name=".ResultsActivity"></activity>
+        <activity android:name=".KeyboardActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ResultsActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>
