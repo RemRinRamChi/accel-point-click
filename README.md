@@ -1,11 +1,12 @@
 # accel-point-click (project-13-b)
-accel-point-click is a Android library for accelerometer-based pointing and clicking. It supports:
+accel-point-click is an Android library for accelerometer-based pointing and clicking. The clicking methods were created
+with minimal screen occlusion in mind. It supports:
 
 2 control modes for pointing:
 - **Velocity-control** - Pointer acts like a ball under the effects of gravity.
 - **Position-control** - Pointer has an initial position and tilt the device moves the pointer away from the initial position.
 
-4 ways of clicking:
+4 ways of clicking with minimal screen occlusion:
 - **Bezel Swiping** - Small swipe away from any position of the device’s bezel (edge frame of the device) triggers a click.
 - **Floating Button** - A small floating button for clicking, that can be moved around or overlayed at the bezel of the device.
 - **Volume Down Button** - Volume down button is overridden to register a click when pressed on.
