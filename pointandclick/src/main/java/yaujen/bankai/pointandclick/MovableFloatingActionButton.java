@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import static yaujen.bankai.pointandclick.Utility.aLog;
+
 /**
  * MovableFloatingActionButton extends a FloatingActionButton
  * It opens up 3 customization options for the FloatingActionButton: Color, Size and Opacity
@@ -86,7 +88,10 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent){
-
+        if(motionEvent.getSource() == 420){
+            aLog("floating button","own source");
+            return true; // consumed
+        }
         int action = motionEvent.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
 

@@ -123,7 +123,8 @@ public class MouseView extends SurfaceView implements Runnable, SensorEventListe
     public void setMovableFloatingActionButton(MovableFloatingActionButton mFab){
         buttonClicker = mFab;
         buttonClicker.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            @Override
+            public void onClick(View v){
                 click();
             }
         });
